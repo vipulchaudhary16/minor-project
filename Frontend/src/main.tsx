@@ -1,13 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-import { UserProvider } from './context/user.context.tsx'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.tsx';
+import './index.css';
+import { UserProvider } from './context/user.context.tsx';
+import axios from 'axios';
+
+axios.defaults.headers.common['auth-token'] = localStorage.getItem('token');
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <UserProvider>
-    <App />
-    </UserProvider>
-  </React.StrictMode>,
-)
+	<React.StrictMode>
+		<UserProvider>
+			<App />
+		</UserProvider>
+	</React.StrictMode>
+);

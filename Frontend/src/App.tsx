@@ -7,20 +7,25 @@ import ProjectLists from './component/ProjectLists';
 import Notifications from './component/Notifications';
 import Login from './component/Login';
 import { RoleBaseRouting } from './routes/RoleBaseRouting';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
 	return (
-		<Router>
-			<Routes>
-				<Route path='/' element={<Login />} />
-				<Route element={<RoleBaseRouting role={2} />}>
-					<Route path='/student/problem-list' element={<ProjectLists />} />
-					<Route path='/student/updates' element={<Notifications />} />
-					{/* Profile */}
-					<Route path='/student' element={<Notifications />} />
-				</Route>
-			</Routes>
-		</Router>
+		<>
+			<ToastContainer />
+			<Router>
+				<Routes>
+					<Route path='/' element={<Login />} />
+					<Route element={<RoleBaseRouting role={2} />}>
+						<Route path='/student/problem-list' element={<ProjectLists />} />
+						<Route path='/student/updates' element={<Notifications />} />
+						{/* Profile */}
+						<Route path='/student' element={<Notifications />} />
+					</Route>
+				</Routes>
+			</Router>
+		</>
 	);
 };
 

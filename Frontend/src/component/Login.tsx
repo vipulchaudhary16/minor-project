@@ -7,7 +7,7 @@ const Login: React.FC = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const { setUser } = useContext(UserContext);
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -33,6 +33,7 @@ const Login: React.FC = () => {
 				break;
 		}
 		localStorage.setItem('user', JSON.stringify(res.data.user));
+		localStorage.setItem('token', res.data.token);
 	};
 
 	const handleForgotPassword = (e: React.MouseEvent) => {
