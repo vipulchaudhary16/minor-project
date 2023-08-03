@@ -1,5 +1,5 @@
 import React, { FormEvent } from 'react';
-import PopUp from './PopUp';
+import PopUp from '../PopUp';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 

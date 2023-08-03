@@ -16,7 +16,7 @@ interface Props {
 }
 
 const ProjectTable: React.FC<Props> = ({ projects }) => {
-	return (
+  return (
 		<div className='w-full'>
 			<table className='min-w-full divide-y divide-gray-200'>
 				<thead>

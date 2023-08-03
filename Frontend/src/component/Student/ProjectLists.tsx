@@ -7,6 +7,7 @@ const ProjectLists = () => {
 
 	useEffect(() => {
 		fetchProjectList();
+		console.log('project list fetched....');
 	}, []);
 
 	const fetchProjectList = async () => {
