@@ -114,7 +114,14 @@ const logIn = async (req, res) => {
 			},
 		};
 		const token = jwt.sign(payload, SECRET);
-		res.status(200).json({ token });
+		res.status(200).json({
+			token,
+			user: {
+				id: user._id,
+				email: user.email,
+				role: user.role,
+			},
+		});
 	} catch (error) {
 		console.log(error);
 		res.status(500).send('Internal server error');
