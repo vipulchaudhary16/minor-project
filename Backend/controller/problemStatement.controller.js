@@ -37,6 +37,7 @@ const updateProblemStatement = async (req, res) => {
 
 const getProblemStatements = async (req, res) => {
 	try {
+		const { facultyId } = req.query;
 		const problemStatements = await ProblemStatement.aggregate([
 			{
 				$lookup: {
@@ -62,7 +63,17 @@ const getProblemStatements = async (req, res) => {
 			},
 		]);
 
-		res.status(200).json(problemStatements);
+		let filteredProblemStatements = problemStatements;
+		if (facultyId) {
+			filteredProblemStatements = problemStatements.filter(
+				(problemStatement) => {
+					return problemStatement.faculty._id.toString() === facultyId;
+					return true;
+				}
+			);
+		}
+
+		res.status(200).json(filteredProblemStatements);
 	} catch (error) {
 		console.log(error);
 		res.status(500).send('Internal server error');

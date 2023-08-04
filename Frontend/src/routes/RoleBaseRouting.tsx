@@ -21,11 +21,11 @@ export const RoleBaseRouting: React.FC<RoleBaseRoutingProps> = ({ role }) => {
 
 	return (
 		<>
-			<div className="h-screen grid grid-cols-12">
-				<div className="hidden lg:block lg:col-span-2">
-					<SideNav />
+			<div className='h-screen grid grid-cols-12'>
+				<div className='hidden lg:block lg:col-span-2'>
+					<SideNav role={role} />
 				</div>
-				<div className="col-span-12 lg:col-span-10">
+				<div className='col-span-12 lg:col-span-10'>
 					{isAuthenticated && user?.role === role ? (
 						<Outlet />
 					) : (

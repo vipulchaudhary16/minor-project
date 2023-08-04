@@ -39,6 +39,8 @@ const ProjectRow: React.FC<ProjectRowProps> = ({ project }) => {
 			return toast('Request sent successfully');
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setIsPopUpOpen(false);
 		}
 	};
 

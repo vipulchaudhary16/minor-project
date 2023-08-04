@@ -2,12 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Home from './component/Home';
-import ProjectLists from './component/Student/ProjectLists';
+import ProjectLists from './component/ProjectLists';
 import Notifications from './component/Notifications';
 import Login from './component/Login';
 import { RoleBaseRouting } from './routes/RoleBaseRouting';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { NotificationsContainer } from './component/NotificationsContainer';
 
 const App: React.FC = () => {
 	return (
@@ -17,14 +18,20 @@ const App: React.FC = () => {
 				<Routes>
 					<Route path='/' element={<Login />} />
 					<Route element={<RoleBaseRouting role={1} />}>
-					<Route path='/faculty/problem-list' element={<ProjectLists />} />
-					<Route path='/faculty/updates' element={<Notifications />} />
-					<Route path='/faculty' element={<Home />} />
-				</Route>
-				<Route element={<RoleBaseRouting role={2} />}>
+						<Route path='/faculty/problem-list' element={<ProjectLists />} />
+						<Route
+							path='/faculty/updates'
+							element={<NotificationsContainer />}
+						/>
+						<Route path='/faculty' element={<Home />} />
+					</Route>
+					<Route element={<RoleBaseRouting role={2} />}>
 						<Route path='/student/problem-list' element={<ProjectLists />} />
-						<Route path='/student/updates' element={<Notifications />} />
-							<Route path='/student' element={<Home />} />
+						<Route
+							path='/student/updates'
+							element={<NotificationsContainer />}
+						/>
+						<Route path='/student' element={<Home />} />
 					</Route>
 				</Routes>
 			</Router>
