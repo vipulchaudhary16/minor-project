@@ -11,33 +11,33 @@ const ProjectLists = () => {
 	const [isFormOpen, setIsFormOpen] = useState(false);
 	const user = useSelector(userSelector);
 
-	useEffect(() => {
-		fetchProjectList();
-		console.log('project list fetched....');
-	}, []);
+  useEffect(() => {
+    fetchProjectList();
+    console.log("project list fetched....");
+  }, []);
 
-	const fetchProjectList = async () => {
-		try {
-			let url = 'http://localhost:8080';
-			if (user?.role === 1) {
-				//faculty
-				url += '/api/problemStatement/?facultyId=' + user.id;
-			} else {
-				//student
-				url += '/api/problemStatement/';
-			}
-			const res = await axios.get(url);
-			console.log(res.data);
-			setProjectList(res.data);
-		} catch (error) {
-			console.log(error);
-		}
-	};
+  const fetchProjectList = async () => {
+    try {
+      let url = "http://localhost:8080";
+      if (user?.role === 1) {
+        //faculty
+        url += "/api/problemStatement/?facultyId=" + user.id;
+      } else {
+        //student
+        url += "/api/problemStatement/";
+      }
+      const res = await axios.get(url);
+      console.log(res.data);
+      setProjectList(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-	const handleOnSuccess = () => {
-		setIsFormOpen(false);
-		fetchProjectList();
-	};
+  const handleOnSuccess = () => {
+    setIsFormOpen(false);
+    fetchProjectList();
+  };
 
 	return (
 		<>

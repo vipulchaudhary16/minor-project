@@ -1,42 +1,48 @@
-import React from 'react';
+import React from "react";
 
 interface NotificationCardProps {
-	notification: {
-		_id: string;
-		from: string;
-		to: string;
-		message_by_from: string;
+  notification: {
+    _id: string;
+    from: string;
+    to: string;
+    message_by_from: string;
     message_by_to: string;
-		status: string;
-		data: {
-			problemId: string;
-		};
-		__v: number;
-	};
+    status: string;
+    data: {
+      problemId: string;
+    };
+    __v: number;
+  };
 }
 
 const NotificationCardStudent: React.FC<NotificationCardProps> = ({
-	notification,
+  notification,
 }) => {
-	return (
-		<>
-			<div className='border border-gray-300 rounded p-4 mb-4'>
-				<div className='text-lg font-semibold mb-2'>
-					You sent request to {notification.from}
-				</div>
-				<div className='text-gray-600 mb-4'>Update: {notification?.message_by_to}</div>
-				<div className='text-gray-700 mb-2'>Status: {notification.status}</div>
-				<div className='text-gray-700 mb-4'>
-					Problem ID: {notification.data.problemId}
-				</div>
-				<div className='flex space-x-4'>
-					<button className='bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded'>
-						Withdraw
-					</button>
-				</div>
-			</div>
-		</>
-	);
+  return (
+    <>
+      <div className="card p-[2.5rem] rounded-lg text-[#5A6A85]">
+        <div className="flex flex-col gap-[.5rem]">
+          <div className="text-[1.3rem] font-semibold">
+            Request To: <span className="text-[1.3rem] font-normal"> {notification.to} </span>
+          </div>
+          <div className="text-[1.3rem] font-semibold">
+            Update: <span className="text-[1.3rem] font-normal"> {notification?.message_by_to || "NA"} </span>
+          </div>
+          <div className="text-[1.3rem] font-semibold">
+            Status: <span className="text-[1.3rem] font-normal"> {notification.status} </span>
+          </div>
+          <div className="text-[1.3rem] font-semibold">
+            Problem ID: <span className="text-[1.3rem] font-normal"> {notification.data.problemId} </span>
+          </div>
+        </div>
+        <div className="mt-[1rem]">
+          <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-[.8rem] px-[1.6rem] rounded">
+            Withdraw
+          </button>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default NotificationCardStudent;

@@ -1,6 +1,6 @@
 import ProfileCard from "./ProfileCard";
 
-const Home = () => {
+const Profile = () => {
 
   return (
     <>
@@ -18,4 +18,4 @@ const Home = () => {
   )
 }
 
-export default Home;
+export default Profile;
