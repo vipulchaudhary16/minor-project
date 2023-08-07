@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Home from './component/Home';
@@ -9,8 +9,17 @@ import { RoleBaseRouting } from './routes/RoleBaseRouting';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NotificationsContainer } from './component/NotificationsContainer';
+import Error404 from './component/Error404';
+import { useSelector } from 'react-redux';
+import { userSelector } from './store/user/user.selector';
+import axios from 'axios';
 
 const App: React.FC = () => {
+	const user = useSelector(userSelector);
+
+	useEffect(() => {
+		axios.defaults.headers.common['auth-token'] = localStorage.getItem('token');
+	}, [user]);
 	return (
 		<>
 			<ToastContainer />
@@ -33,6 +42,7 @@ const App: React.FC = () => {
 						/>
 						<Route path='/student' element={<Home />} />
 					</Route>
+					<Route path='*' element={<Error404 />} />
 				</Routes>
 			</Router>
 		</>

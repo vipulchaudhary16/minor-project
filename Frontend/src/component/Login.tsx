@@ -1,13 +1,14 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
-import { UserContext } from '../context/user.context';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { setUser } from '../store/user/user.slice';
+import { useDispatch } from 'react-redux';
 
 const Login: React.FC = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const { setUser } = useContext(UserContext);
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -15,8 +16,8 @@ const Login: React.FC = () => {
 			email,
 			password,
 		});
-		console.log(res.data.user);
-		setUser(res.data.user);
+		const user = res.data.user;
+		dispatch(setUser({ ...user }));
 		const role = res.data.user.role;
 		switch (role) {
 			case 1:
@@ -32,7 +33,6 @@ const Login: React.FC = () => {
 				navigate('/');
 				break;
 		}
-		localStorage.setItem('user', JSON.stringify(res.data.user));
 		localStorage.setItem('token', res.data.token);
 	};
 

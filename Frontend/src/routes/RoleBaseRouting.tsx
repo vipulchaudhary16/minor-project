@@ -1,7 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { UserContext } from '../context/user.context';
 import SideNav from '../component/SideNav';
+import UnauthorizedPage from '../component/Unauthorised';
+import { useSelector } from 'react-redux';
+import { userSelector } from '../store/user/user.selector';
 
 interface RoleBaseRoutingProps {
 	role: number;
@@ -9,7 +11,7 @@ interface RoleBaseRoutingProps {
 
 export const RoleBaseRouting: React.FC<RoleBaseRoutingProps> = ({ role }) => {
 	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-	const { user } = useContext(UserContext);
+	const  user  = useSelector(userSelector)
 
 	useEffect(() => {
 		if (user) {
@@ -29,7 +31,7 @@ export const RoleBaseRouting: React.FC<RoleBaseRoutingProps> = ({ role }) => {
 					{isAuthenticated && user?.role === role ? (
 						<Outlet />
 					) : (
-						<h1>You are not authorized to view this page</h1>
+						<UnauthorizedPage />
 					)}
 				</div>
 			</div>

@@ -1,12 +1,13 @@
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../context/user.context';
+import { useEffect, useState } from 'react';
 import NotificationCardStudent from './Student/NotificationCard';
 import NotificationCardFaculty from './Faculty/NotificationCard';
+import { useSelector } from 'react-redux';
+import { userSelector } from '../store/user/user.selector';
 
 export const NotificationsContainer = () => {
 	const [notifications, setNotifications] = useState([]);
-	const { user } = useContext(UserContext);
+	const user = useSelector(userSelector);
 
 	useEffect(() => {
 		getNotifications();
