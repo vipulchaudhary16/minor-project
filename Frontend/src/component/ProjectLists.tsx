@@ -1,72 +1,80 @@
-import { useContext, useEffect, useState } from 'react';
-import ProjectTable from './Student/ProjectTable';
-import axios from 'axios';
-import PopUp from './PopUp';
-import AddProblemStatementForm from './Faculty/AddProblemStatement';
-import { UserContext } from '../context/user.context';
+import { useContext, useEffect, useState } from "react";
+import ProjectTable from "./Student/ProjectTable";
+import axios from "axios";
+import PopUp from "./PopUp";
+import AddProblemStatementForm from "./Faculty/AddProblemStatement";
+import { UserContext } from "../context/user.context";
 
 const ProjectLists = () => {
-	const [projectList, setProjectList] = useState([]);
-	const [isFormOpen, setIsFormOpen] = useState(false);
-	const { user } = useContext(UserContext);
+  const [projectList, setProjectList] = useState(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const { user } = useContext(UserContext);
 
-	useEffect(() => {
-		fetchProjectList();
-		console.log('project list fetched....');
-	}, []);
+  useEffect(() => {
+    fetchProjectList();
+    console.log("project list fetched....");
+  }, []);
 
-	const fetchProjectList = async () => {
-		try {
-			let url = 'http://localhost:8080';
-			if (user?.role === 1) {
-				//faculty
-				url += '/api/problemStatement/?facultyId=' + user.id;
-			} else {
-				//student
-				url += '/api/problemStatement/';
-			}
-			const res = await axios.get(url);
-			console.log(res.data);
-			setProjectList(res.data);
-		} catch (error) {
-			console.log(error);
-		}
-	};
+  const fetchProjectList = async () => {
+    try {
+      let url = "http://localhost:8080";
+      if (user?.role === 1) {
+        //faculty
+        url += "/api/problemStatement/?facultyId=" + user.id;
+      } else {
+        //student
+        url += "/api/problemStatement/";
+      }
+      const res = await axios.get(url);
+      console.log(res.data);
+      setProjectList(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-	const handleOnSuccess = () => {
-		setIsFormOpen(false);
-		fetchProjectList();
-	};
+  const handleOnSuccess = () => {
+    setIsFormOpen(false);
+    fetchProjectList();
+  };
 
-	return (
-		<>
-			<PopUp
-				setIsOpen={setIsFormOpen}
-				isOpen={isFormOpen}
-				heading='Add Project'
-			>
-				<AddProblemStatementForm onSuccess = {handleOnSuccess}/>
-			</PopUp>
-			<div className='max-h-screen p-[6rem] overflow-auto'>
-				<div className='bg-[#ebf3fe] mb-[3rem] p-[2.5rem] rounded-lg'>
-					<h2 className='text-[2.2rem] text-[#5d87ff] font-semibold'>
-						Project List
-					</h2>
-				</div>
-				<div className='flex justify-between items-center mb-[2rem]'>
-					<button
-						className='bg-[#5d87ff] text-white px-[1.5rem] py-[0.5rem] rounded-lg'
-						onClick={() => setIsFormOpen(true)}
-					>
-						Add Project
-					</button>
-				</div>
-				<div className='card p-[2.5rem] rounded-lg'>
-					<ProjectTable projects={projectList} />
-				</div>
-			</div>
-		</>
-	);
+  return (
+    <>
+      <PopUp
+        setIsOpen={setIsFormOpen}
+        isOpen={isFormOpen}
+        heading="Add Project"
+      >
+        <AddProblemStatementForm onSuccess={handleOnSuccess} />
+      </PopUp>
+      <div className="max-h-screen p-[6rem] overflow-auto">
+        <div className="bg-[#ebf3fe] mb-[3rem] p-[2.5rem] rounded-lg">
+          <h2 className="text-[2.2rem] text-[#5d87ff] font-semibold">
+            Project List
+          </h2>
+        </div>
+        <div className="mb-[3rem]">
+          {user?.role === 1 ? (
+            <button
+              className="bg-[#5d87ff] text-white px-[1.5rem] py-[0.5rem] rounded-lg"
+              onClick={() => setIsFormOpen(true)}
+            >
+              Add Project
+            </button>
+          ) : (
+            <></>
+          )}
+        </div>
+        {projectList ? (
+          <div className="card p-[2.5rem] rounded-lg">
+            <ProjectTable projects={projectList} />
+          </div>
+        ) : (
+          <>Loading....</>
+        )}
+      </div>
+    </>
+  );
 };
 
 export default ProjectLists;

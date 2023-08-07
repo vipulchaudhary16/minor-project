@@ -15,13 +15,13 @@ const SideNav: React.FC<NavProps> = ({ role }) => {
 	};
 
 	const navLinks: Array<NavLink> = [
-		{ label: 'Home', url: role_to_link[role] },
+		{ label: 'Profile', url: role_to_link[role] },
 		{ label: 'Project List', url: role_to_link[role] + '/problem-list' },
 		{ label: 'Notifications', url: role_to_link[role] + '/updates' },
 	];
 
 	return (
-		<div className='h-screen flex flex-col gap-[3rem] px-[4.5rem] py-[2rem] border-r-[.1rem]'>
+		<div className='card h-screen flex flex-col gap-[3rem] px-[4.5rem] py-[2rem]'>
 			<Link to={'/student'} className='text-[#5d87ff] text-[2.5rem] font-bold'>
 				PDEU
 			</Link>

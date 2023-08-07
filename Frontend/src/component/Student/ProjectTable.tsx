@@ -21,16 +21,16 @@ const ProjectTable: React.FC<Props> = ({ projects }) => {
 			<table className='min-w-full divide-y divide-gray-200'>
 				<thead>
 					<tr>
-						<th className='px-[2.4rem] py-[1.2rem] text-left text-[1.5rem] text-[#5A6A85] font-semibold uppercase tracking-wider'>
+						<th className='p-[1.4rem] text-left text-[1.4rem] text-[#5A6A85] font-semibold uppercase tracking-wider'>
 							Project Title
 						</th>
-						<th className='px-[2.4rem] py-[1.2rem] text-left text-[1.5rem] text-[#5A6A85] font-semibold uppercase tracking-wider'>
+						<th className='p-[1.4rem] text-left text-[1.4rem] text-[#5A6A85] font-semibold uppercase tracking-wider'>
 							Domain
 						</th>
-						<th className='px-[2.4rem] py-[1.2rem] text-left text-[1.5rem] text-[#5A6A85] font-semibold uppercase tracking-wider'>
+						<th className='p-[1.4rem] text-left text-[1.4rem] text-[#5A6A85] font-semibold uppercase tracking-wider'>
 							Faculty Name
 						</th>
-						<th className='px-[2.4rem] py-[1.2rem] text-left text-[1.5rem] text-[#5A6A85] font-semibold uppercase tracking-wider'>
+						<th className='p-[1.4rem] text-left text-[1.4rem] text-[#5A6A85] font-semibold uppercase tracking-wider'>
 							Action
 						</th>
 					</tr>

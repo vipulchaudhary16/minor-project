@@ -21,7 +21,7 @@ export const RoleBaseRouting: React.FC<RoleBaseRoutingProps> = ({ role }) => {
 
 	return (
 		<>
-			<div className='h-screen grid grid-cols-12'>
+			<div className='max-h-screen h-screen grid grid-cols-12'>
 				<div className='hidden lg:block lg:col-span-2'>
 					<SideNav role={role} />
 				</div>
