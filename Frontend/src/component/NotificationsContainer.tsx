@@ -35,7 +35,7 @@ export const NotificationsContainer = () => {
           user?.role === 1 ? (
             <NotificationCardFaculty notification={notification} />
           ) : (
-            <NotificationCardStudent notification={notification} />
+            <NotificationCardStudent notification={notification}/>
           )
         )}
       </div>
