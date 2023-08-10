@@ -1,10 +1,16 @@
+const mongoose = require('mongoose');
 const Request = require('../schema/Request.schema');
 
 const sendRequest = async (req, res) => {
 	try {
 		const from = req.user.id;
 		const { to, message, data } = req.body;
-		const request = new Request({ from, to, message_by_from: message, data });
+		const request = new Request({
+			from,
+			to,
+			message_by_from: message,
+			problemId: data.problemId,
+		});
 		await request.save();
 		res.status(201).json('Request sent');
 	} catch (error) {
@@ -68,10 +74,71 @@ const withdrawRequest = async (req, res) => {
 
 const getRequests = async (req, res) => {
 	try {
-		const user = req.user.id;
-		const requests = await Request.find({
-			$or: [{ from: user }, { to: user }],
-		});
+		const user = new mongoose.Types.ObjectId(req.user.id);
+		// const requests = await Request.find({
+		// 	$or: [{ from: user }, { to: user }],
+		// });
+		const requests = await Request.aggregate([
+			{
+				$match: {
+					$or: [{ to: user }, { from: user }],
+				},
+			},
+			{
+				$lookup: {
+					from: 'users', // The name of the "User" collection
+					localField: 'from',
+					foreignField: '_id',
+					as: 'fromUser',
+				},
+			},
+			{
+				$unwind: '$fromUser',
+			},
+			{
+				$lookup: {
+					from: 'users', // The name of the "User" collection
+					localField: 'to',
+					foreignField: '_id',
+					as: 'toUser',
+				},
+			},
+			{
+				$unwind: '$toUser',
+			},
+			{
+				$lookup: {
+					from: 'problemstatements', // The name of the "ProblemStatement" collection
+					localField: 'problemId',
+					foreignField: '_id',
+					as: 'problemStatement',
+				},
+			},
+			{
+				$unwind: '$problemStatement',
+			},
+			{
+				$project: {
+					message_by_from: 1,
+					message_by_to: 1,
+					status: 1,
+					fromUser: {
+						id: '$_id',
+						name: 1,
+						email: 1,
+					},
+					toUser: {
+						id: '$_id',
+						name: 1,
+						email: 1,
+					},
+					problemStatement: {
+						id: '$_id',
+						statement: 1,
+					},
+				},
+			},
+		]);
 		res.status(200).json(requests);
 	} catch (error) {
 		console.log(error);

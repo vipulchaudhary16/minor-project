@@ -22,8 +22,9 @@ const requestSchema = new mongoose.Schema({
 		enum: ['PENDING', 'ACCEPTED', 'REJECTED'],
 		default: 'PENDING',
 	},
-	data: {
-		type: Object,
+	problemId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'ProblemStatement',
 	},
 });
 
