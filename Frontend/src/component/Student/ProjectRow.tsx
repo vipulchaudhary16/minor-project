@@ -47,11 +47,7 @@ const ProjectRow: React.FC<ProjectRowProps> = ({ project }) => {
   return (
     <>
       {isPopUpOpen && (
-        <PopUp
-          heading=""
-          isOpen={isPopUpOpen}
-          setIsOpen={setIsPopUpOpen}
-        >
+        <PopUp heading="" isOpen={isPopUpOpen} setIsOpen={setIsPopUpOpen}>
           <form className="flex flex-col" onSubmit={(e) => sendRequest(e)}>
             <div className="mb-[2rem]">
               <label
@@ -65,8 +61,8 @@ const ProjectRow: React.FC<ProjectRowProps> = ({ project }) => {
                 className="w-full px-[1.2rem] py-[.8rem] border rounded-md focus:outline-none focus:ring-1 focus:ring-[#557deb] text-[1.2rem]"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-				cols={40}
-				rows={8}
+                cols={40}
+                rows={8}
                 required
               />
             </div>

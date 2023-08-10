@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface NavLink {
 	label: string;
@@ -8,6 +8,7 @@ interface NavProps {
 	role: number;
 }
 const SideNav: React.FC<NavProps> = ({ role }) => {
+	const location = useLocation();
 	const role_to_link: { [key: number]: string } = {
 		1: '/faculty',
 		2: '/student',
@@ -30,7 +31,7 @@ const SideNav: React.FC<NavProps> = ({ role }) => {
 					<Link
 						to={navlink.url}
 						key={index}
-						className='p-[1.1rem] text-[1.35rem] text-[#2a3547] font-medium cursor-pointer rounded-lg hover:bg-[#5d87ff1a] hover:text-[#5d87ff]'
+						className={`${navlink.url === location.pathname ? 'bg-[#5d87ff1a] text-[#5d87ff]' : ''} p-[1.1rem] text-[1.35rem] text-[#2a3547] font-medium cursor-pointer rounded-lg hover:bg-[#5d87ff1a] hover:text-[#5d87ff]`}
 					>
 						{navlink.label}
 					</Link>
