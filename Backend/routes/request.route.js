@@ -1,11 +1,6 @@
 const express = require('express');
 const verifyToken = require('../middleware/token.middleware');
-const {
-	sendRequest,
-	updateRequest,
-	withdrawRequest,
-	getRequests,
-} = require('../controller/request.controller');
+const { getRequests, sendRequest, updateRequest, withdrawRequest } = require('../controller/request/projectRequest.controller');
 const router = express.Router();
 
 router.use(verifyToken);

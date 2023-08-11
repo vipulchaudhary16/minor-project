@@ -2,7 +2,7 @@ const ProblemStatement = require('../schema/ProblemStatement.schema');
 
 const addNewProblemStatement = async (req, res) => {
 	try {
-		const { statement, domain } = req.body;gi
+		const { statement, domain } = req.body;
 		const facultyId = req.user.id;
 		const newProblemStatement = new ProblemStatement({
 			facultyId,

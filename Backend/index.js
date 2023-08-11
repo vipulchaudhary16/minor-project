@@ -4,6 +4,7 @@ const cors = require('cors');
 const logger = require('morgan');
 const dbConfig = require('./config/db.config');
 const app = express();
+require('use-strict')
 
 app.use(cors());
 app.use(express.json());
@@ -20,6 +21,7 @@ app.get('/api', (req, res) => {
 app.use('/api/user', require('./routes/user.route'));
 app.use('/api/problemStatement', require('./routes/problemStatement.route'));
 app.use('/api/request/', require('./routes/request.route'))
+app.use('/api/group/', require('./routes/group.route'))
 
 app.listen(process.env.PORT, () => {
 	console.log(`Server is running on port ${process.env.PORT}`);
