@@ -1,3 +1,4 @@
+const GroupSchema = require('../schema/Group.schema');
 const OTP = require('../schema/OTP.schema');
 const User = require('../schema/User.schema');
 const { generateOTP } = require('./function.controller');
@@ -97,6 +98,58 @@ const verifyOTP = async (req, res) => {
 	}
 };
 
+const getUserGroupData = async (userId) => {
+	// const group = await GroupSchema.findOne({ groupMembers: { $in: [userId] } });
+	// return group;
+	const pipeline = [
+		{
+			$lookup: {
+				from: 'users', // Name of the 'User' collection
+				localField: 'groupMembers',
+				foreignField: '_id',
+				as: 'groupMembersData',
+			},
+		},
+		{
+			$lookup: {
+				from: 'users', // Name of the 'User' collection
+				localField: 'createdBy',
+				foreignField: '_id',
+				as: 'createdByData',
+			},
+		},
+		{
+			$lookup: {
+				from: 'problemstatements', // Name of the 'ProblemStatement' collection
+				localField: 'problemStatementId',
+				foreignField: '_id',
+				as: 'problemStatementData',
+			},
+		},
+		{
+			$project: {
+				groupNumber: 1,
+				createdAt: 1,
+				groupMembersData: {
+					_id: 1,
+					name: 1,
+					rollNo: 1,
+				},
+				createdByData: {
+					name: 1,
+					rollNo: 1,
+				},
+				problemStatementData: {
+					_id: 1,
+					statement: 1,
+				},
+			},
+		},
+	];
+	const group = await GroupSchema.aggregate(pipeline);
+	return group;
+};
+
 const logIn = async (req, res) => {
 	try {
 		const { email, password } = req.body;
@@ -119,7 +172,33 @@ const logIn = async (req, res) => {
 			user: {
 				id: user._id,
 				email: user.email,
+				rollNo: user.rollNo,
 				role: user.role,
+				group: await getUserGroupData(user._id),
+			},
+		});
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal server error');
+	}
+};
+
+const getUserData = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const user = await User.findById(id);
+		console.log(user);
+		if (!user) {
+			return res.status(400).send('User not found');
+		}
+		const group = await getUserGroupData(id);
+		res.status(200).json({
+			user: {
+				id: user._id,
+				email: user.email,
+				rollNo: user.rollNo,
+				role: user.role,
+				group,
 			},
 		});
 	} catch (error) {
@@ -133,4 +212,5 @@ module.exports = {
 	verifyOTP,
 	logIn,
 	registerInBulkAndSendCredentials,
+	getUserData,
 };

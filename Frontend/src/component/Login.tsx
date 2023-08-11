@@ -17,7 +17,11 @@ const Login: React.FC = () => {
 			password,
 		});
 		const user = res.data.user;
-		dispatch(setUser({ ...user }));
+		const userFetch = await axios.get(
+			`http://localhost:8080/api/user/${user.id}`
+		);
+		console.log(userFetch.data);
+		dispatch(setUser(userFetch.data.user));
 		const role = res.data.user.role;
 		switch (role) {
 			case 1:
@@ -43,7 +47,7 @@ const Login: React.FC = () => {
 	};
 
 	return (
-		<div className='h-screen flex items-center justify-center bg-gray-100'>
+		<div className='flex items-center justify-center h-screen bg-gray-100'>
 			<div className='w-1/3 p-[2.5rem] bg-white rounded-lg shadow-md'>
 				<h2 className='text-[#5d87ff] text-[2.5rem] font-semibold text-center mb-[1.6rem]'>
 					Login
