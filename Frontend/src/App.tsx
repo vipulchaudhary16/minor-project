@@ -8,17 +8,31 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NotificationsContainer } from './component/NotificationsContainer';
 import Error404 from './component/Error404';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userSelector } from './store/user/user.selector';
 import axios from 'axios';
 import Profile from './component/Profile';
+import { setUser } from './store/user/user.slice';
 
 const App: React.FC = () => {
 	const user = useSelector(userSelector);
-
+	const dispatch = useDispatch();
 	useEffect(() => {
 		axios.defaults.headers.common['auth-token'] = localStorage.getItem('token');
 	}, [user]);
+
+	useEffect(() => {
+		if (user) {
+			fetchUser();
+		}
+	}, []);
+
+	const fetchUser = async () => {
+		const userFetch = await axios.get(
+			`http://localhost:8080/api/user/${user.id}`
+		);
+		dispatch(setUser(userFetch.data.user));
+	};
 
 	return (
 		<>

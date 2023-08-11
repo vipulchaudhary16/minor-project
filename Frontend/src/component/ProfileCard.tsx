@@ -3,7 +3,6 @@ import { userSelector } from '../store/user/user.selector';
 
 const ProfileCard = () => {
 	const user = useSelector(userSelector);
-
 	return (
 		<>
 			<div className='flex gap-[3rem] justify-center items-center'>
