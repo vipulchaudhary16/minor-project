@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
 const ProjectRequestSchema = require('../../schema/Request/ProjectRequest.schema');
-const GroupSchema = require('../../schema/Group.schema');
 
 /**
  * Send a request to faculty to select a problem statement
@@ -94,110 +92,8 @@ const withdrawRequest = async (req, res) => {
 	}
 };
 
-const getRequests = async (req, res) => {
-	try {
-		const user = new mongoose.Types.ObjectId(req.user.id);
-		const pipeline = [];
-		if (req.user.role === 2) {
-			const userGroup = await GroupSchema.findOne({
-				groupMembers: { $in: [user] },
-			});
-			pipeline.push({
-				$match: {
-					groupId: userGroup._id,
-				},
-			});
-		} else {
-			pipeline.push({
-				$match: {
-					'to.id': user,
-				},
-			});
-		}
-		pipeline.push(
-			...[
-				{
-					$lookup: {
-						from: 'users',
-						localField: 'from.id',
-						foreignField: '_id',
-						as: 'fromUser',
-					},
-				},
-				{
-					$lookup: {
-						from: 'users',
-						localField: 'to.id',
-						foreignField: '_id',
-						as: 'toUser',
-					},
-				},
-				{
-					$lookup: {
-						from: 'groups',
-						localField: 'groupId',
-						foreignField: '_id',
-						as: 'group',
-					},
-				},
-				{
-					$lookup: {
-						from: 'problemstatements',
-						localField: 'problemStatementId',
-						foreignField: '_id',
-						as: 'problemStatement',
-					},
-				},
-				{
-					$unwind: '$fromUser',
-				},
-				{
-					$unwind: '$toUser',
-				},
-				{
-					$unwind: '$group',
-				},
-				{
-					$unwind: '$problemStatement',
-				},
-				{
-					$project: {
-						_id: 1,
-						fromUser: {
-							_id: 1,
-							name: 1,
-						},
-						toUser: {
-							_id: 1,
-							name: 1,
-						},
-						status: 1,
-						group: {
-							_id: 1,
-							groupNumber: 1,
-						},
-						problemStatement: {
-							_id: 1,
-							statement: 1,
-						},
-						createdAt: 1,
-					},
-				},
-			]
-		);
-
-		const requests = await ProjectRequestSchema.aggregate(pipeline);
-
-		return res.json(requests);
-	} catch (error) {
-		console.log(error);
-		res.status(500).send('Internal server error');
-	}
-};
-
 module.exports = {
 	sendRequest,
 	updateRequest,
 	withdrawRequest,
-	getRequests,
 };

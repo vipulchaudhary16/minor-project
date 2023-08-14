@@ -21,6 +21,11 @@ const InvitationRequest = new mongoose.Schema({
 		},
 	},
 
+	type:{
+		type: String,
+		default: "GROUP_INVITE"
+	},
+
 	status: {
 		type: String,
 		enum: ['pending', 'accepted', 'rejected'],

@@ -22,7 +22,7 @@ const Profile = () => {
 					<div className='card p-[3.5rem] rounded-lg'>
 						<ProfileCard />
 					</div>
-					{!(user?.group.length > 0) ? (
+					{user?.group.length > 0 ? (
 						<div className='my-[2rem]'>
 							<button
 								className='bg-[#5d87ff] text-white text-[1.3rem] font-semibold py-[1rem] px-[1.8rem] rounded-md hover:bg-[#557deb]'

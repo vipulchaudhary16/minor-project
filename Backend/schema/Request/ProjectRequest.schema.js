@@ -21,6 +21,11 @@ const ProjectRequest = new mongoose.Schema({
 		},
 	},
 
+	type:{
+		type: String,
+		default: "PROJECT_REQUEST"
+	},
+
 	status: {
 		type: String,
 		enum: ['pending', 'accepted', 'rejected'],

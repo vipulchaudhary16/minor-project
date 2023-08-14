@@ -10,7 +10,7 @@ const verifyToken = require('../middleware/token.middleware');
 const router = express.Router();
 
 // router.post('/register', register);
-router.get('/:id', verifyToken, getUserData);
+router.get('/:id', getUserData);
 router.post('/register', registerInBulkAndSendCredentials);
 router.post('/verify-email', verifyOTP);
 router.post('/login', logIn);
