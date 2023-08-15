@@ -24,7 +24,6 @@ const NotificationCardFaculty: React.FC<NotificationCardProps> = ({
 			);
 			return toast.success('Update sent successfully');
 		} catch (error) {
-			console.log(error);
 			return toast.error('Something went wrong');
 		} finally {
 			setIsPopUpOpen(false);

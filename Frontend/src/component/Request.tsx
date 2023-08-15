@@ -1,6 +1,9 @@
 import React from 'react';
 import { TRequest } from '../types/request.types';
 import { RequestDetails } from './RequestDetails';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import PopUp from './PopUp';
 
 interface RequestProps {
 	request: TRequest;
@@ -8,6 +11,9 @@ interface RequestProps {
 }
 
 export const Request: React.FC<RequestProps> = ({ request, requestType }) => {
+	const [message, setMessage] = React.useState<string>('');
+	const [status, setStatus] = React.useState<string>('');
+	const [isPopUpOpen, setIsPopUpOpen] = React.useState<boolean>(false);
 	const isoDateString = request.createdAt;
 	const date = new Date(isoDateString);
 
@@ -22,72 +28,182 @@ export const Request: React.FC<RequestProps> = ({ request, requestType }) => {
 	const formatter = new Intl.DateTimeFormat('en-IN', options);
 	const formattedDate = formatter.format(date);
 
+	const handleAcceptRequest = async (type: string) => {
+		switch (type) {
+			case 'GROUP_INVITE': {
+				try {
+					await axios.put(
+						'http://localhost:8080/api/group/invite/?invitationId=' +
+							request.id +
+							'&status=accepted'
+					);
+					toast.success('Group invitation accepted');
+				} catch (error) {
+					toast.error('Something went wrong');
+				}
+				break;
+			}
+			case 'PROJECT_REQUEST': {
+				setStatus('accepted');
+				setIsPopUpOpen(true);
+			}
+		}
+	};
+
+	const handleRejectRequest = async (type: string) => {
+		switch (type) {
+			case 'GROUP_INVITE': {
+				try {
+					await axios.put(
+						'http://localhost:8080/api/group/invite/?invitationId=' +
+							request.id +
+							'&status=rejected'
+					);
+					toast.success('Group invitation rejected');
+				} catch (error) {
+					toast.error('Something went wrong');
+				}
+				break;
+			}
+			case 'PROJECT_REQUEST': {
+				setStatus('rejected');
+				setIsPopUpOpen(true);
+			}
+		}
+	};
+
+	const sendUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const body = {
+			message,
+			status,
+		};
+		try {
+			await axios.put(
+				`http://localhost:8080/api/project-request/update/${request.id}`,
+				body
+			);
+			return toast.success('Update sent successfully');
+		} catch (error) {
+			return toast.error('Something went wrong');
+		} finally {
+			setIsPopUpOpen(false);
+		}
+	};
+
 	return (
-		<div className='border rounded-lg p-4 bg-gray-100 my-4'>
-			{request.type === 'GROUP_INVITE' && (
-				<div className='flex flex-col my-2'>
-					{requestType === 'sent' && (
-						<>
-							<RequestDetails
-								userName={request.user.name}
-								formattedDate={formattedDate}
-								statement='joining your group'
-								status={request.status}
-							/>
-						</>
-					)}
-					{requestType === 'received' && (
-						<>
-							<RequestDetails
-								userName={request.user.name}
-								formattedDate={formattedDate}
-								statement='joining his group'
-								status={request.status}
-							/>
-							<div>
-								<button className='px-8 py-4 bg-cyan-400 mx-2 my-4 text-2xl rounded-lg text-white font-bold'>
-									Accept
-								</button>
-								<button className='px-8 py-4 bg-red-400 mx-2 my-4 text-2xl rounded-lg text-white font-bold'>
-									Reject
-								</button>
-							</div>
-						</>
-					)}
-				</div>
-			)}
-			{request.type === 'PROJECT_REQUEST' && (
-				<div className='flex flex-col my-2'>
-					{requestType === 'sent' && (
-						<>
-							<RequestDetails
-								userName={request.user.name}
-								formattedDate={formattedDate}
-								statement={`selecting problem statement ${request?.problemStatementDetails?.statement}`}
-								status={request.status}
-							/>
-						</>
-					)}
-					{requestType === 'received' && (
-						<>
-							<RequestDetails
-								userName={request.user.name}
-								formattedDate={formattedDate}
-								statement={`working on problem statement ${request?.problemStatementDetails?.statement}`}
-								status={request.status}
-							/>
-							<div>
-								<button className='px-8 py-4 bg-cyan-400 mx-2 my-4 text-2xl rounded-lg text-white font-bold'>
-									Accept
-								</button>
-								<button className='px-8 py-4 bg-red-400 mx-2 my-4 text-2xl rounded-lg text-white font-bold'>
-									Reject
-								</button>
-							</div>
-						</>
-					)}
-				</div>
-			)}
-		</div>
+		<>
+			<PopUp isOpen={isPopUpOpen} setIsOpen={setIsPopUpOpen} heading=''>
+				<form className='flex flex-col' onSubmit={(e) => sendUpdate(e)}>
+					<div className='mb-[2rem]'>
+						<label
+							htmlFor='message'
+							className='block text-[1.3rem] font-semibold mb-[1rem]'
+						>
+							Message
+						</label>
+						<textarea
+							placeholder='Enter your message to be sent to the faculty'
+							className='w-full px-[1.2rem] py-[.8rem] border rounded-md focus:outline-none focus:ring-1 focus:ring-[#557deb] text-[1.2rem]'
+							value={message}
+							onChange={(e) => setMessage(e.target.value)}
+							cols={40}
+							rows={8}
+							required
+						/>
+					</div>
+					<div className='text-center'>
+						<button
+							type='submit'
+							className='w-full bg-[#5d87ff] text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]'
+						>
+							Send
+						</button>
+					</div>
+				</form>
+			</PopUp>
+			<div className='border rounded-lg p-4 bg-gray-100 my-4'>
+				{request.type === 'GROUP_INVITE' && (
+					<div className='flex flex-col my-2'>
+						{requestType === 'sent' && (
+							<>
+								<RequestDetails
+									fromName='you'
+									toName={request.user.name}
+									formattedDate={formattedDate}
+									statement='joining your group'
+									status={request.status}
+								/>
+							</>
+						)}
+						{requestType === 'received' && (
+							<>
+								<RequestDetails
+									fromName={request.user.name}
+									toName='you'
+									formattedDate={formattedDate}
+									statement='joining his group'
+									status={request.status}
+								/>
+								<div>
+									<button
+										onClick={() => handleAcceptRequest(request.type)}
+										className='px-8 py-4 bg-cyan-400 mx-2 my-4 text-2xl rounded-lg text-white font-bold'
+									>
+										Accept
+									</button>
+									<button
+										onClick={() => handleRejectRequest(request.type)}
+										className='px-8 py-4 bg-red-400 mx-2 my-4 text-2xl rounded-lg text-white font-bold'
+									>
+										Reject
+									</button>
+								</div>
+							</>
+						)}
+					</div>
+				)}
+				{request.type === 'PROJECT_REQUEST' && (
+					<div className='flex flex-col my-2'>
+						{requestType === 'sent' && (
+							<>
+								<RequestDetails
+									toName={request.user.name}
+									fromName='you'
+									formattedDate={formattedDate}
+									statement={`selecting problem statement ${request?.problemStatementDetails?.statement}`}
+									status={request.status}
+								/>
+							</>
+						)}
+						{requestType === 'received' && (
+							<>
+								<RequestDetails
+									fromName={request.user.name}
+									toName='you'
+									formattedDate={formattedDate}
+									statement={`working on problem statement ${request?.problemStatementDetails?.statement}`}
+									status={request.status}
+								/>
+								<div>
+									<button
+										onClick={() => handleAcceptRequest(request.type)}
+										className='px-8 py-4 bg-cyan-400 mx-2 my-4 text-2xl rounded-lg text-white font-bold'
+									>
+										Accept
+									</button>
+									<button
+										onClick={() => handleRejectRequest(request.type)}
+										className='px-8 py-4 bg-red-400 mx-2 my-4 text-2xl rounded-lg text-white font-bold'
+									>
+										Reject
+									</button>
+								</div>
+							</>
+						)}
+					</div>
+				)}
+			</div>
+		</>
 	);
 };

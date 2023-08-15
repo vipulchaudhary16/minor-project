@@ -58,9 +58,11 @@ const inviteMember = async (req, res) => {
  * @params
   	- invitationId : String == id of the invitation
  */
-const acceptGroupInvitation = async (req, res) => {
+const updateGroupInvitation = async (req, res) => {
 	try {
-		const { invitationId } = req.params;
+		const { invitationId } = req.query;
+		console.log(invitationId);
+		const { status } = req.query;
 		const userId = req.user.id;
 
 		const invitation = await GroupInvitationRequestSchema.findById(
@@ -80,13 +82,21 @@ const acceptGroupInvitation = async (req, res) => {
 				.status(400)
 				.send('You are not authorized to accept this invitation');
 		}
-		// update the invitation status to accepted
-		await updateInvitationStatus(invitationId, 'accepted');
-		// add the user to the group
-		await GroupSchema.findByIdAndUpdate(invitation.groupId, {
-			$push: { groupMembers: userId },
-		});
-		res.status(200).send('Invitation accepted');
+
+		if (status === 'rejected') {
+			await updateInvitationStatus(invitationId, 'rejected');
+			return res.status(200).send('Invitation rejected');
+		} else if (status === 'accepted') {
+			// update the invitation status to accepted
+			await updateInvitationStatus(invitationId, 'accepted');
+			// add the user to the group
+			await GroupSchema.findByIdAndUpdate(invitation.groupId, {
+				$push: { groupMembers: userId },
+			});
+			res.status(200).send('Invitation accepted');
+		}
+
+		res.status(400).send('Invalid status');
 	} catch (error) {
 		console.log(error);
 		res.status(500).send('Internal server error');
@@ -107,5 +117,5 @@ const updateInvitationStatus = async (id, status) => {
 module.exports = {
 	sendInviteRequest,
 	inviteMember,
-	acceptGroupInvitation,
+	updateGroupInvitation,
 };

@@ -23,26 +23,29 @@ const ProjectRow: React.FC<ProjectRowProps> = ({ project }) => {
 	const [isPopUpOpen, setIsPopUpOpen] = React.useState<boolean>(false);
 	const [message, setMessage] = React.useState<string>('');
 	const user = useSelector(userSelector);
-	console.log(user);
 
 	const openPopUp = () => {
+		if (user.group.length === 0) {
+			toast.error('Create or join group to send project request');
+			return;
+		}
 		setIsPopUpOpen(true);
 	};
 
 	const sendRequest = async (e: FormEvent) => {
 		e.preventDefault();
+
 		const body = {
 			message,
 			to: project.faculty._id,
-			data: {
-				problemId: project._id,
-			},
+			problemStatementId: project._id,
+			groupId: user.group[0]._id,
 		};
 		try {
 			await axios.post('http://localhost:8080/api/project-request/send', body);
-			return toast('Request sent successfully');
-		} catch (error) {
-			console.log(error);
+			toast('Request sent successfully');
+		} catch (error: any) {
+			toast.error(error.response.data);
 		} finally {
 			setIsPopUpOpen(false);
 		}

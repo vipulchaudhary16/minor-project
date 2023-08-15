@@ -41,8 +41,8 @@ export const NotificationsContainer = () => {
 				</div>
 			</div>
 			<div className='flex flex-col gap-[2rem] mb-[2rem]'>
-				{activeTab === 0 && <SentRequests activeTab={activeTab} />}
 				{activeTab === 1 && <ReceivedRequests activeTab={activeTab} />}
+				{activeTab === 0 && <SentRequests activeTab={activeTab}  />}
 			</div>
 		</div>
 	);
