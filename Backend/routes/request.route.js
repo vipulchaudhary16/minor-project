@@ -1,11 +1,16 @@
 const express = require('express');
 const verifyToken = require('../middleware/token.middleware');
-const { getRequests, sendRequest, updateRequest, withdrawRequest } = require('../controller/request/projectRequest.controller');
+const {
+	sendRequest,
+	updateRequest,
+	withdrawRequest,
+} = require('../controller/project/projectRequest.controller');
+const { getRequests } = require('../controller/request.controller');
 const router = express.Router();
 
 router.use(verifyToken);
 
-router.get('/', getRequests)
+router.get('/', getRequests);
 router.post('/send', sendRequest);
 router.put('/update/:requestId', updateRequest);
 router.delete('/withdraw/:requestId', withdrawRequest);

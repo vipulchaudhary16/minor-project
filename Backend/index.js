@@ -20,7 +20,7 @@ app.get('/api', (req, res) => {
 
 app.use('/api/user', require('./routes/user.route'));
 app.use('/api/problemStatement', require('./routes/problemStatement.route'));
-app.use('/api/request/', require('./routes/request.route'))
+app.use('/api/project-request/', require('./routes/request.route'))
 app.use('/api/group/', require('./routes/group.route'))
 
 app.listen(process.env.PORT, () => {
