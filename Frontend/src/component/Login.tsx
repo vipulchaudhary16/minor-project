@@ -20,7 +20,6 @@ const Login: React.FC = () => {
 		const userFetch = await axios.get(
 			`http://localhost:8080/api/user/${user.id}`
 		);
-		console.log(userFetch.data);
 		dispatch(setUser(userFetch.data.user));
 		const role = res.data.user.role;
 		switch (role) {
@@ -43,7 +42,6 @@ const Login: React.FC = () => {
 	const handleForgotPassword = (e: React.MouseEvent) => {
 		e.preventDefault();
 		// Add your "Forgot Password" logic here
-		console.log('Forgot Password clicked');
 	};
 
 	return (

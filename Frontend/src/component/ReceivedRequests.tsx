@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { TRequest } from '../types/request.types';
 import { Request } from './Request';
+import { toast } from 'react-toastify';
 
 type ReceivedRequestsProps = {
 	activeTab: number;
@@ -27,9 +28,8 @@ export const ReceivedRequests: React.FC<ReceivedRequestsProps> = ({
 				'http://localhost:8080/api/project-request?type=received'
 			);
 			setRequests(res.data);
-			console.log(res.data)
-		} catch (error) {
-			console.log(error);
+		} catch (error: any) {
+			toast.error(error.response.data);
 		}
 	};
 	return (

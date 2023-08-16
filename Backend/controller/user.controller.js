@@ -98,10 +98,15 @@ const verifyOTP = async (req, res) => {
 	}
 };
 
-const getUserGroupData = async (userId) => {
+const getUserGroupData = async (groupId) => {
 	// const group = await GroupSchema.findOne({ groupMembers: { $in: [userId] } });
 	// return group;
 	const pipeline = [
+		{
+			$match: {
+				_id: groupId,
+			},
+		},
 		{
 			$lookup: {
 				from: 'users', // Name of the 'User' collection
@@ -167,6 +172,7 @@ const logIn = async (req, res) => {
 			},
 		};
 		const token = jwt.sign(payload, SECRET);
+
 		res.status(200).json({
 			token,
 			user: {
@@ -191,7 +197,11 @@ const getUserData = async (req, res) => {
 		if (!user) {
 			return res.status(400).send('User not found');
 		}
-		const group = await getUserGroupData(id);
+		const groupData = await GroupSchema.findOne({
+			groupMembers: { $in: [id] },
+		});
+		let group = [];
+		if (groupData) group = await getUserGroupData(groupData._id);
 		res.status(200).json({
 			user: {
 				id: user._id,

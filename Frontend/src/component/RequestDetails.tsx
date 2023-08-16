@@ -1,25 +1,27 @@
 import React from 'react';
 
 interface RequestDetailsProps {
-  userName: string;
-  formattedDate: string;
-  statement: string;
-  status: string;
+	fromName: string;
+  toName: string;
+	formattedDate: string;
+	statement: string;
+	status: string;
 }
 
 export const RequestDetails: React.FC<RequestDetailsProps> = ({
-  userName,
-  formattedDate,
-  statement,
-  status,
+	formattedDate,
+	statement,
+	status,
+  fromName,
+  toName
 }) => (
-  <>
-    <p className="text-2xl">
-      You requested {userName} for {statement} at{' '}
-      <span className="font-semibold">{formattedDate}</span>
-    </p>
-    <p className="text-2xl">
-      <span className="font-bold text-2xl">Status:</span> {status}
-    </p>
-  </>
+	<>
+		<p className='text-2xl'>
+			{fromName} requested {toName} for {statement} at{' '}
+			<span className='font-semibold'>{formattedDate}</span>
+		</p>
+		<p className='text-2xl'>
+			<span className='font-bold text-2xl'>Status:</span> {status}
+		</p>
+	</>
 );

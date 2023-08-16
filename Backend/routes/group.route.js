@@ -5,15 +5,15 @@ const {
 	getUnGroupedUsers,
 } = require('../controller/group/group.controller');
 const {
-	acceptGroupInvitation,
 	inviteMember,
+	updateGroupInvitation,
 } = require('../controller/group/invitation.controller');
 const router = express.Router();
 
 router.use(verifyToken);
 router.post('/create', create);
 router.post('/invite', inviteMember);
-router.post('/accept-invitation/:invitationId', acceptGroupInvitation);
+router.put('/invite', updateGroupInvitation);
 router.get('/get-ungrouped-users', getUnGroupedUsers);
 
 module.exports = router;

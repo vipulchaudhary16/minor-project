@@ -15,6 +15,17 @@ const sendRequest = async (req, res) => {
 		const { to, message, groupId, problemStatementId } = req.body;
 		const from = req.user.id;
 
+		const findRequest = await ProjectRequestSchema.findOne({
+			groupId,
+			problemStatementId,
+		});
+
+		if (findRequest) {
+			return res
+				.status(400)
+				.json('Request already sent for this problem statement by your group');
+		}
+
 		const request = await ProjectRequestSchema({
 			from: {
 				id: from,
@@ -57,6 +68,7 @@ const updateRequest = async (req, res) => {
 		await ProjectRequestSchema.findByIdAndUpdate(requestId, {
 			status,
 			to: {
+				id: request.to.id,
 				message,
 			},
 		});

@@ -1,4 +1,5 @@
 export interface TRequest {
+	id: string;
 	user: {
 		id: string;
 		message?: string;

@@ -5,6 +5,7 @@ import PopUp from "./PopUp";
 import AddProblemStatementForm from "./Faculty/AddProblemStatement";
 import { useSelector } from "react-redux";
 import { userSelector } from "../store/user/user.selector";
+import { toast } from "react-toastify";
 
 const ProjectLists = () => {
   const [projectList, setProjectList] = useState(null);
@@ -14,7 +15,6 @@ const ProjectLists = () => {
 
   useEffect(() => {
     fetchProjectList();
-    console.log("project list fetched....");
   }, []);
 
   const fetchProjectList = async () => {
@@ -28,10 +28,9 @@ const ProjectLists = () => {
         url += "/api/problemStatement/";
       }
       const res = await axios.get(url);
-      console.log(res.data);
       setProjectList(res.data);
     } catch (error) {
-      console.log(error);
+      toast.error('Something went wrong');
     }
   };
 

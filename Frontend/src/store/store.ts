@@ -11,8 +11,8 @@ const persistConfig = {
 	transforms: [
 		encryptTransform({
 			secretKey: 'my-super-secret-key-xxxx',
-			onError(error) {
-				console.log(error)
+			onError() {
+				window.location.reload();
 			},
 		}),
 	],
