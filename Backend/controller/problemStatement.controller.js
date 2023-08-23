@@ -38,42 +38,83 @@ const updateProblemStatement = async (req, res) => {
 const getProblemStatements = async (req, res) => {
 	try {
 		const { facultyId } = req.query;
-		const problemStatements = await ProblemStatement.aggregate([
-			{
-				$lookup: {
-					from: 'users',
-					localField: 'facultyId',
-					foreignField: '_id',
-					as: 'faculty',
-				},
-			},
-			{
-				$unwind: '$faculty',
-			},
-			{
-				$project: {
-					_id: 1,
-					statement: 1,
-					domain: 1,
-					faculty: {
-						_id: 1,
-						name: 1,
+		if (facultyId) {
+			const pipeline = [
+				{
+					$lookup: {
+						from: 'groups',
+						localField: 'selectedBy',
+						foreignField: '_id',
+						as: 'selectedBy',
 					},
 				},
-			},
-		]);
-
-		let filteredProblemStatements = problemStatements;
-		if (facultyId) {
-			filteredProblemStatements = problemStatements.filter(
-				(problemStatement) => {
-					return problemStatement.faculty._id.toString() === facultyId;
-					return true;
-				}
+				{
+					$unwind: {
+						path: '$selectedBy',
+						preserveNullAndEmptyArrays: true,
+					},
+				},
+				{
+					$project: {
+						_id: 1,
+						statement: 1,
+						domain: 1,
+						selectedBy: {
+							_id: '$selectedBy._id',
+							groupNumber: '$selectedBy.groupNumber',
+						},
+					},
+				},
+			];
+			const problemStatementDetails = await ProblemStatement.aggregate(
+				pipeline
 			);
+			return res.status(200).json(problemStatementDetails);
+		} else {
+			const pipeline = [
+				{
+					$lookup: {
+						from: 'users',
+						localField: 'facultyId',
+						foreignField: '_id',
+						as: 'faculty',
+					},
+				},
+				{
+					$unwind: '$faculty',
+				},
+				{
+					$lookup: {
+						from: 'groups',
+						localField: 'selectedBy',
+						foreignField: '_id',
+						as: 'selectedBy',
+					},
+				},
+				{
+					$unwind: {
+						path: '$selectedBy',
+						preserveNullAndEmptyArrays: true,
+					},
+				},
+				{
+					$project: {
+						_id: 1,
+						faculty: { _id: '$faculty._id', name: '$faculty.name' },
+						statement: 1,
+						domain: 1,
+						selectedBy: {
+							_id: '$selectedBy._id',
+							groupNumber: '$selectedBy.groupNumber',
+						},
+					},
+				},
+			];
+			const problemStatementDetails = await ProblemStatement.aggregate(
+				pipeline
+			);
+			return res.status(200).json(problemStatementDetails);
 		}
-
-		res.status(200).json(filteredProblemStatements);
 	} catch (error) {
 		console.log(error);
 		res.status(500).send('Internal server error');

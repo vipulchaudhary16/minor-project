@@ -1,15 +1,10 @@
 import React from 'react';
-import ProjectRow from './ProjectRow';
+import { useSelector } from 'react-redux';
+import { userSelector } from '../store/user/user.selector';
+import { ProjectRowStudent } from './Student/ProjectRow';
+import { ProjectRowFaculty } from './Faculty/ProjectRow';
+import { Project } from '../types/index.types';
 
-interface Project {
-	_id: string;
-	statement: string;
-	domain: string;
-	faculty: {
-		_id: string;
-		name: string;
-	};
-}
 
 interface Props {
 	projects: Project[];
@@ -17,6 +12,7 @@ interface Props {
 }
 
 const ProjectTable: React.FC<Props> = ({ projects, columns }) => {
+	const user = useSelector(userSelector);
 	return (
 		<div className='w-full'>
 			<table className='min-w-full divide-y divide-gray-200'>
@@ -34,7 +30,10 @@ const ProjectTable: React.FC<Props> = ({ projects, columns }) => {
 				</thead>
 				<tbody className='text-[#5A6A85]'>
 					{projects.map((project) => (
-						<ProjectRow key={project._id} project={project} />
+						<>
+							{user.role === 1 && ProjectRowFaculty({ project })}
+							{user.role === 2 && ProjectRowStudent({ project })}
+						</>
 					))}
 				</tbody>
 			</table>

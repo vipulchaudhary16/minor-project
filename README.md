@@ -30,3 +30,5 @@ TODO Backlog:
 - Faculty hoi to sent request array always empty j rakhvani ya to hide rakhvani
 - Request nu status hoi e mujb accept and reject button hide v karvu padse
 - Faculty ma send request button hide karvu padse
+- ek group ma ek project j aapvani
+- reqquest accept thaya bad reject na kari sake

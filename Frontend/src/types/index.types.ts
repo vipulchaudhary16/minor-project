@@ -16,3 +16,17 @@ export interface Group {
   }[];
 }
 
+export interface Project {
+  _id: string;
+  statement: string;
+  domain: string;
+  faculty?: {
+    name: string;
+    _id: string;
+  };
+  selectedBy?: {
+    _id: string;
+    groupNumber: number;
+  }
+}
+

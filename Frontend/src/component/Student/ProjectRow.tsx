@@ -4,22 +4,13 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { userSelector } from '../../store/user/user.selector';
-
-interface Project {
-	_id: string;
-	statement: string;
-	domain: string;
-	faculty: {
-		name: string;
-		_id: string;
-	};
-}
+import { Project } from '../../types/index.types';
 
 interface ProjectRowProps {
 	project: Project;
 }
 
-const ProjectRow: React.FC<ProjectRowProps> = ({ project }) => {
+export const ProjectRowStudent: React.FC<ProjectRowProps> = ({ project }) => {
 	const [isPopUpOpen, setIsPopUpOpen] = React.useState<boolean>(false);
 	const [message, setMessage] = React.useState<string>('');
 	const user = useSelector(userSelector);
@@ -37,7 +28,7 @@ const ProjectRow: React.FC<ProjectRowProps> = ({ project }) => {
 
 		const body = {
 			message,
-			to: project.faculty._id,
+			to: project.faculty?._id,
 			problemStatementId: project._id,
 			groupId: user.group[0]._id,
 		};
@@ -98,7 +89,7 @@ const ProjectRow: React.FC<ProjectRowProps> = ({ project }) => {
 				</td>
 				<td className='p-[1.4rem] whitespace-no-wrap'>
 					<div className='text-[1.3rem] font-medium'>
-						{project.faculty.name}
+						{project.faculty?.name}
 					</div>
 				</td>
 				<td className='p-[1.4rem] whitespace-no-wrap'>
@@ -113,5 +104,3 @@ const ProjectRow: React.FC<ProjectRowProps> = ({ project }) => {
 		</>
 	);
 };
-
-export default ProjectRow;

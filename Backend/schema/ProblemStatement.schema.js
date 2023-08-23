@@ -14,6 +14,11 @@ const problemStatementSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	selectedBy: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Group', // Reference to the Group model for Group
+		default: null,
+	},
 });
 
 const ProblemStatement = mongoose.model(

@@ -1,13 +1,9 @@
-import { useState } from 'react';
-import ProfileCard from './ProfileCard';
-import PopUp from './PopUp';
-import GroupForm from './Student/GroupForm';
-import { GroupTable } from './Student/GroupTable';
 import { useSelector } from 'react-redux';
 import { userSelector } from '../store/user/user.selector';
+import { ProfileFaculty } from './Faculty/ProfileCard';
+import { ProfileCardStudent } from './Student/ProfileCard';
 
 const Profile = () => {
-	const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 	const user = useSelector(userSelector);
 
 	return (
@@ -20,31 +16,9 @@ const Profile = () => {
 						</h2>
 					</div>
 					<div className='card p-[3.5rem] rounded-lg'>
-						<ProfileCard />
+						{user.role === 1 ? <ProfileFaculty /> : <></>}
+						{user.role === 2 ? <ProfileCardStudent /> : <></>}
 					</div>
-					{user?.group.length > 0 ? (
-						<div className='my-[2rem]'>
-							<button
-								className='bg-[#5d87ff] text-white text-[1.3rem] font-semibold py-[1rem] px-[1.8rem] rounded-md hover:bg-[#557deb]'
-								onClick={() => setIsPopUpOpen(true)}
-							>
-								Create Team
-							</button>
-							{isPopUpOpen && (
-								<PopUp
-									heading=''
-									isOpen={isPopUpOpen}
-									setIsOpen={setIsPopUpOpen}
-								>
-									<GroupForm />
-								</PopUp>
-							)}
-						</div>
-					) : (
-						<div className='my-[2rem]'>
-							<GroupTable groupInformation={user.group[0]} />
-						</div>
-					)}
 				</div>
 			</div>
 		</>

@@ -59,12 +59,12 @@ const registerInBulkAndSendCredentials = async (req, res) => {
 	try {
 		const { users } = req.body;
 		for (let i = 0; i < users.length; i++) {
-			const { name, email, rollNo } = users[i];
+			const { name, email, rollNo, role } = users[i];
 			const newUser = new User({
 				name,
 				email,
 				rollNo,
-				role: 2,
+				role,
 				password: generateRandomPassword(name),
 			});
 			await newUser.save();
@@ -178,6 +178,7 @@ const logIn = async (req, res) => {
 			user: {
 				id: user._id,
 				email: user.email,
+				name: user.name,
 				rollNo: user.rollNo,
 				role: user.role,
 				group: await getUserGroupData(user._id),
@@ -206,6 +207,7 @@ const getUserData = async (req, res) => {
 			user: {
 				id: user._id,
 				email: user.email,
+				name: user.name,
 				rollNo: user.rollNo,
 				role: user.role,
 				group,

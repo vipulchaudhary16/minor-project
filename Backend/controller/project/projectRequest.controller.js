@@ -1,3 +1,4 @@
+const ProblemStatement = require('../../schema/ProblemStatement.schema');
 const ProjectRequestSchema = require('../../schema/Request/ProjectRequest.schema');
 
 /**
@@ -72,6 +73,12 @@ const updateRequest = async (req, res) => {
 				message,
 			},
 		});
+
+		if (status === 'accepted') {
+			await ProblemStatement.findByIdAndUpdate(request.problemStatementId, {
+				selectedBy: request.groupId,
+			});
+		}
 
 		res.status(200).json('Request updated');
 	} catch (error) {

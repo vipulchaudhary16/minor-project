@@ -6,7 +6,7 @@ export interface TRequest {
 		name: string;
 	};
 	type: string;
-	status: string;
+	status: 'accepted' | 'rejected' | 'pending';
 	groupId: string;
 	createdAt: string;
 	problemStatementDetails?: {
