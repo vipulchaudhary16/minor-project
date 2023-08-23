@@ -137,10 +137,13 @@ export const Request: React.FC<RequestProps> = ({
 					formattedDate={formattedDate}
 					statement={
 						request.type === 'GROUP_INVITE'
-							? 'joining your group'
+							? requestType === 'sent'
+								? 'joining your group'
+								: ' joining his group'
 							: `selecting problem statement ${request?.problemStatementDetails?.statement}`
 					}
 					status={request.status}
+					message={request.message_by_sender}
 				/>
 				{requestType === 'received' && (
 					<div>

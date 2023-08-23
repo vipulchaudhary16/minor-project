@@ -99,8 +99,6 @@ const verifyOTP = async (req, res) => {
 };
 
 const getUserGroupData = async (groupId) => {
-	// const group = await GroupSchema.findOne({ groupMembers: { $in: [userId] } });
-	// return group;
 	const pipeline = [
 		{
 			$match: {
@@ -152,6 +150,7 @@ const getUserGroupData = async (groupId) => {
 		},
 	];
 	const group = await GroupSchema.aggregate(pipeline);
+	console.log(group);
 	return group;
 };
 

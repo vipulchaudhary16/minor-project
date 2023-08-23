@@ -92,9 +92,9 @@ const getUnGroupedUsers = async (req, res) => {
 		];
 		const users = await User.aggregate(pipeline);
 		//sort by roll no, roll no is string
-		users.sort((a, b) => {
-			return a.rollNo.localeCompare(b.rollNo);
-		});
+		// users.sort((a, b) => {
+		// 	return a.rollNo.localeCompare(b.rollNo);
+		// });
 		res.status(200).json(users);
 	} catch (error) {
 		console.log(error);
