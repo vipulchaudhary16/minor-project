@@ -2,6 +2,7 @@ const GroupSchema = require('../../schema/Group.schema');
 const mongoose = require('mongoose');
 const User = require('../../schema/User.schema');
 const { sendInviteRequest } = require('./invitation.controller');
+const ProblemStatement = require('../../schema/ProblemStatement.schema');
 
 /**
  * Create a new group (server function)
@@ -102,7 +103,64 @@ const getUnGroupedUsers = async (req, res) => {
 	}
 };
 
+const getGroupData = async (groupId) => {
+	const pipeline = [
+		{
+			$match: {
+				_id: groupId,
+			},
+		},
+		{
+			$lookup: {
+				from: 'users',
+				localField: 'groupMembers',
+				foreignField: '_id',
+				as: 'groupMembersData',
+			},
+		},
+		{
+			$lookup: {
+				from: 'users',
+				localField: 'createdBy',
+				foreignField: '_id',
+				as: 'createdByData',
+			},
+		},
+		{
+			$unwind: '$createdByData',
+		},
+		{
+			$project: {
+				groupNumber: 1,
+				createdAt: 1,
+				groupMembersData: {
+					_id: 1,
+					name: 1,
+					rollNo: 1,
+				},
+				createdByData: {
+					name: 1,
+					rollNo: 1,
+				},
+			},
+		},
+	];
+	const group = await GroupSchema.aggregate(pipeline);
+	if (group[0]) {
+		const groupId = group[0]._id;
+		const problemStatement = await ProblemStatement.findOne({
+			selectedBy: groupId,
+		}, {
+			statement: 1,
+			_id: 1,
+		});
+		group[0].selectedProblemStatement = problemStatement;
+	}
+	return group[0] ?? null;
+};
+
 module.exports = {
 	create,
 	getUnGroupedUsers,
+	getGroupData,
 };

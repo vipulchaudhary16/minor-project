@@ -4,6 +4,7 @@ import { RequestDetails } from './RequestDetails';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import PopUp from '../PopUp';
+import { convertTimeIntoIST } from '../../utils/functions';
 
 interface RequestProps {
 	request: TRequest;
@@ -19,19 +20,6 @@ export const Request: React.FC<RequestProps> = ({
 	const [message, setMessage] = React.useState<string>('');
 	const [status, setStatus] = React.useState<string>('');
 	const [isPopUpOpen, setIsPopUpOpen] = React.useState<boolean>(false);
-	const isoDateString = request.createdAt;
-	const date = new Date(isoDateString);
-
-	const options: any = {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-		hour: 'numeric',
-		minute: 'numeric',
-	};
-
-	const formatter = new Intl.DateTimeFormat('en-IN', options);
-	const formattedDate = formatter.format(date);
 
 	const handleAcceptRequest = async (type: string) => {
 		switch (type) {
@@ -134,7 +122,7 @@ export const Request: React.FC<RequestProps> = ({
 				<RequestDetails
 					fromName={requestType === 'sent' ? 'You' : request.user.name}
 					toName={requestType === 'sent' ? request.user.name : 'You'}
-					formattedDate={formattedDate}
+					formattedDate={convertTimeIntoIST(request.createdAt)}
 					statement={
 						request.type === 'GROUP_INVITE'
 							? requestType === 'sent'

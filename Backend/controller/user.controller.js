@@ -2,6 +2,7 @@ const GroupSchema = require('../schema/Group.schema');
 const OTP = require('../schema/OTP.schema');
 const User = require('../schema/User.schema');
 const { generateOTP } = require('./function.controller');
+const { getGroupData } = require('./group/group.controller');
 const { sendOTP, sendCredentials } = require('./mails.controller');
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.JWT_SECRET_KEY;
@@ -98,62 +99,6 @@ const verifyOTP = async (req, res) => {
 	}
 };
 
-const getUserGroupData = async (groupId) => {
-	const pipeline = [
-		{
-			$match: {
-				_id: groupId,
-			},
-		},
-		{
-			$lookup: {
-				from: 'users', // Name of the 'User' collection
-				localField: 'groupMembers',
-				foreignField: '_id',
-				as: 'groupMembersData',
-			},
-		},
-		{
-			$lookup: {
-				from: 'users', // Name of the 'User' collection
-				localField: 'createdBy',
-				foreignField: '_id',
-				as: 'createdByData',
-			},
-		},
-		{
-			$lookup: {
-				from: 'problemstatements', // Name of the 'ProblemStatement' collection
-				localField: 'problemStatementId',
-				foreignField: '_id',
-				as: 'problemStatementData',
-			},
-		},
-		{
-			$project: {
-				groupNumber: 1,
-				createdAt: 1,
-				groupMembersData: {
-					_id: 1,
-					name: 1,
-					rollNo: 1,
-				},
-				createdByData: {
-					name: 1,
-					rollNo: 1,
-				},
-				problemStatementData: {
-					_id: 1,
-					statement: 1,
-				},
-			},
-		},
-	];
-	const group = await GroupSchema.aggregate(pipeline);
-	console.log(group);
-	return group;
-};
-
 const logIn = async (req, res) => {
 	try {
 		const { email, password } = req.body;
@@ -180,7 +125,7 @@ const logIn = async (req, res) => {
 				name: user.name,
 				rollNo: user.rollNo,
 				role: user.role,
-				group: await getUserGroupData(user._id),
+				group: await getUserGroup(user._id),
 			},
 		});
 	} catch (error) {
@@ -197,11 +142,7 @@ const getUserData = async (req, res) => {
 		if (!user) {
 			return res.status(400).send('User not found');
 		}
-		const groupData = await GroupSchema.findOne({
-			groupMembers: { $in: [id] },
-		});
-		let group = [];
-		if (groupData) group = await getUserGroupData(groupData._id);
+		let group = await getUserGroup(id);
 		res.status(200).json({
 			user: {
 				id: user._id,
@@ -225,3 +166,12 @@ module.exports = {
 	registerInBulkAndSendCredentials,
 	getUserData,
 };
+
+async function getUserGroup(id) {
+	const groupData = await GroupSchema.findOne({
+		groupMembers: { $in: [id] },
+	});
+	let group = [];
+	if (groupData) group = await getGroupData(groupData._id);
+	return group;
+}

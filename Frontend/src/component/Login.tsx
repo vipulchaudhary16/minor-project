@@ -3,15 +3,18 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { setUser } from '../store/user/user.slice';
 import { useDispatch } from 'react-redux';
+import { Loader } from './Utils/Loader';
 
 const Login: React.FC = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setLoading(true);
 		const res = await axios.post('http://localhost:8080/api/user/login', {
 			email,
 			password,
@@ -37,6 +40,7 @@ const Login: React.FC = () => {
 				break;
 		}
 		localStorage.setItem('token', res.data.token);
+		setLoading(false);
 	};
 
 	const handleForgotPassword = (e: React.MouseEvent) => {
@@ -84,12 +88,16 @@ const Login: React.FC = () => {
 						/>
 					</div>
 					<div className='text-center'>
-						<button
-							type='submit'
-							className='w-full bg-[#5d87ff] text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]'
-						>
-							Login
-						</button>
+						{loading ? (
+							<Loader heading='Logging....' />
+						) : (
+							<button
+								type='submit'
+								className='w-full bg-[#5d87ff] text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]'
+							>
+								Login
+							</button>
+						)}
 					</div>
 				</form>
 				<div className='text-center mt-[1.6rem]'>
