@@ -1,4 +1,4 @@
-const ProblemStatement = require('../schema/ProblemStatement.schema');
+const ProblemStatement = require('../../schema/ProblemStatement.schema');
 
 const addNewProblemStatement = async (req, res) => {
 	try {

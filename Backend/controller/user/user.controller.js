@@ -1,9 +1,8 @@
-const GroupSchema = require('../schema/Group.schema');
-const OTP = require('../schema/OTP.schema');
-const User = require('../schema/User.schema');
-const { generateOTP } = require('./function.controller');
-const { getGroupData } = require('./group/group.controller');
-const { sendOTP, sendCredentials } = require('./mails.controller');
+const GroupSchema = require('../../schema/Group.schema');
+const OTP = require('../../schema/OTP.schema');
+const User = require('../../schema/User.schema');
+const { getGroupData } = require('../group/group.controller');
+const { sendOTP, sendCredentials } = require('../mail/mails.controller');
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.JWT_SECRET_KEY;
 
@@ -80,25 +79,6 @@ const registerInBulkAndSendCredentials = async (req, res) => {
 	}
 };
 
-const verifyOTP = async (req, res) => {
-	try {
-		const { txnId, otp } = req.body;
-		const otpDoc = await OTP.findById(txnId);
-		if (!otpDoc) {
-			return res.status(400).send('Invalid txnId');
-		}
-		if (otpDoc.otp !== otp) {
-			return res.status(400).send('Invalid OTP');
-		}
-		await User.findOneAndUpdate({ isVerified: true });
-		await otpDoc.deleteOne();
-		res.status(200).send('User verified successfully');
-	} catch (error) {
-		console.log(error);
-		res.status(500).send('Internal server error');
-	}
-};
-
 const logIn = async (req, res) => {
 	try {
 		const { email, password } = req.body;
@@ -153,6 +133,25 @@ const getUserData = async (req, res) => {
 				group,
 			},
 		});
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal server error');
+	}
+};
+
+const verifyOTP = async (req, res) => {
+	try {
+		const { txnId, otp } = req.body;
+		const otpDoc = await OTP.findById(txnId);
+		if (!otpDoc) {
+			return res.status(400).send('Invalid txnId');
+		}
+		if (otpDoc.otp !== otp) {
+			return res.status(400).send('Invalid OTP');
+		}
+		await User.findOneAndUpdate({ isVerified: true });
+		await otpDoc.deleteOne();
+		res.status(200).send('User verified successfully');
 	} catch (error) {
 		console.log(error);
 		res.status(500).send('Internal server error');

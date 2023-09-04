@@ -3,6 +3,7 @@ const verifyToken = require('../middleware/token.middleware');
 const {
 	create,
 	getUnGroupedUsers,
+	getGroupsWorkingUnderFaculty,
 } = require('../controller/group/group.controller');
 const {
 	inviteMember,
@@ -12,8 +13,10 @@ const router = express.Router();
 
 router.use(verifyToken);
 router.post('/create', create);
+router.get('/get-ungrouped-users', getUnGroupedUsers);
 router.post('/invite', inviteMember);
 router.put('/invite', updateGroupInvitation);
-router.get('/get-ungrouped-users', getUnGroupedUsers);
+router.get('/my-groups', verifyToken, getGroupsWorkingUnderFaculty);
+
 
 module.exports = router;

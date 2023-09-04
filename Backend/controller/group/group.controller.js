@@ -18,9 +18,9 @@ const create = async (req, res) => {
 
 	try {
 		const userId = req.user.id;
-		// check if user is already in a group
 		const { members } = req.body;
-
+		
+		// check if user is already in a group
 		if (await GroupSchema.findOne({ groupMembers: { $in: [userId] } })) {
 			return res.status(400).send('You are already in a group');
 		}
@@ -159,8 +159,30 @@ const getGroupData = async (groupId) => {
 	return group[0] ?? null;
 };
 
+const getGroupsWorkingUnderFaculty = async (req, res) => {
+	try {
+		const userId = req.user.id;
+		const selectedProblems = await ProblemStatement.find({
+			facultyId: userId,
+			selectedBy: { $ne: null },
+		});
+		const groups = selectedProblems.map((problem) => problem.selectedBy);
+		const groupDataPromises = groups.map(async (group) => {
+			return await getGroupData(group._id);
+		});
+
+		const response = await Promise.all(groupDataPromises);
+
+		return res.status(200).json(response);
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal server error');
+	}
+};
+
 module.exports = {
 	create,
 	getUnGroupedUsers,
 	getGroupData,
+	getGroupsWorkingUnderFaculty
 };

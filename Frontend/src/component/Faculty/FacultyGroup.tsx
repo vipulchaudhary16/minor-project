@@ -10,7 +10,7 @@ const columns = ['Sr.', 'Group Name', , 'Project', 'Action'];
 
 export const FacultyGroup: React.FC = () => {
 	const [groups, setGroups] = React.useState<any[]>([]);
-  const [selectedGroup, setSelectedGroup] = React.useState<any>({});
+	const [selectedGroup, setSelectedGroup] = React.useState<any>({});
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [isPopUpOpen, setIsPopUpOpen] = React.useState<boolean>(false);
 
@@ -20,7 +20,7 @@ export const FacultyGroup: React.FC = () => {
 
 	const getGroups = async () => {
 		setLoading(true);
-		const url = 'http://localhost:8080/api/user/faculty/get-groups';
+		const url = 'http://localhost:8080/api/group/my-groups';
 		try {
 			const res = await axios.get(url);
 			setGroups(res.data);
@@ -30,10 +30,10 @@ export const FacultyGroup: React.FC = () => {
 		setLoading(false);
 	};
 
-  const openGroupDetails = (group: any) => {
-    setSelectedGroup(group);
-    setIsPopUpOpen(true);
-  }
+	const openGroupDetails = (group: any) => {
+		setSelectedGroup(group);
+		setIsPopUpOpen(true);
+	};
 
 	return (
 		<div className='my-4'>
