@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TRequest } from '../../types/request.types';
 import { RequestDetails } from './RequestDetails';
 import axios from 'axios';

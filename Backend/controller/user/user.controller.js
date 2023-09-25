@@ -58,8 +58,17 @@ const generateRandomPassword = (name) => {
 const registerInBulkAndSendCredentials = async (req, res) => {
 	try {
 		const { users } = req.body;
+		const response = [];
 		for (let i = 0; i < users.length; i++) {
 			const { name, email, rollNo, role } = users[i];
+			const isAlreadyRegistered = await User.findOne({ email });
+			if (isAlreadyRegistered) {
+				response.push({
+					email,
+					status: 'Already registered'
+				})
+				continue;
+			}
 			const newUser = new User({
 				name,
 				email,
@@ -68,11 +77,15 @@ const registerInBulkAndSendCredentials = async (req, res) => {
 				password: generateRandomPassword(name),
 			});
 			await newUser.save();
+			response.push({
+				email,
+				status: 'Registered successfully'
+			})
 			await sendCredentials(email, name, newUser.password).then(() => {
 				console.log(`Credentials sent to ${email}`);
 			});
 		}
-		res.status(200).send('Users registered successfully');
+		res.status(200).json(response);
 	} catch (error) {
 		console.log(error);
 		res.status(500).send('Internal server error');

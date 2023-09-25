@@ -17,11 +17,6 @@ app.use(logger(predefinedFormat));
 dbConfig.connect();
 
 app.get('/api', async (req, res) => {
-	const problemStatementDetails = await ProblemStatement.find()
-		.populate('facultyId', ['_id', 'name']) // Replace with the fields you want from the User model
-		.populate('selectedBy', ['_id', 'groupNumber']) // Replace with the fields you want from the Group model
-		.exec();
-	return res.json(problemStatementDetails);
 	res.send('API Ok!');
 });
 
@@ -29,6 +24,7 @@ app.use('/api/user', require('./routes/user.route'));
 app.use('/api/problemStatement', require('./routes/problemStatement.route'));
 app.use('/api/project-request/', require('./routes/request.route'));
 app.use('/api/group/', require('./routes/group.route'));
+app.use('/api/constraints/', require("./routes/constraints.route"))
 
 app.listen(process.env.PORT, () => {
 	console.log(`Server is running on port ${process.env.PORT}`);
