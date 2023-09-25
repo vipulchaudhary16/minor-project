@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { userSelector } from '../../store/user/user.selector';
+import { FacultyGroup } from './FacultyGroup';
 
 export const ProfileFaculty = () => {
 	const user = useSelector(userSelector);
@@ -24,6 +25,7 @@ export const ProfileFaculty = () => {
 					</div>
 				</div>
 			</div>
+			<FacultyGroup />
 		</>
 	);
 };

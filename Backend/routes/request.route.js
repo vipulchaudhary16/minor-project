@@ -5,13 +5,13 @@ const {
 	updateRequest,
 	withdrawRequest,
 } = require('../controller/project/projectRequest.controller');
-const { getRequests } = require('../controller/request.controller');
+const { getRequests } = require('../controller/project/request.controller');
 const router = express.Router();
 
 router.use(verifyToken);
 
-router.get('/', getRequests);
 router.post('/send', sendRequest);
+router.get('/', getRequests);
 router.put('/update/:requestId', updateRequest);
 router.delete('/withdraw/:requestId', withdrawRequest);
 

@@ -6,7 +6,7 @@ const {
 	searchInProblemStatements,
 	getAllDomains,
 	updateProblemStatement,
-} = require('../controller/problemStatement.controller');
+} = require('../controller/project/problemStatement.controller');
 const router = express.Router();
 
 router.use(verifyToken);

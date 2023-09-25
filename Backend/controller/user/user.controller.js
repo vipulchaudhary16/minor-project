@@ -1,8 +1,8 @@
-const GroupSchema = require('../schema/Group.schema');
-const OTP = require('../schema/OTP.schema');
-const User = require('../schema/User.schema');
-const { generateOTP } = require('./function.controller');
-const { sendOTP, sendCredentials } = require('./mails.controller');
+const GroupSchema = require('../../schema/Group.schema');
+const OTP = require('../../schema/OTP.schema');
+const User = require('../../schema/User.schema');
+const { getGroupData } = require('../group/group.controller');
+const { sendOTP, sendCredentials } = require('../mail/mails.controller');
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.JWT_SECRET_KEY;
 
@@ -58,8 +58,17 @@ const generateRandomPassword = (name) => {
 const registerInBulkAndSendCredentials = async (req, res) => {
 	try {
 		const { users } = req.body;
+		const response = [];
 		for (let i = 0; i < users.length; i++) {
 			const { name, email, rollNo, role } = users[i];
+			const isAlreadyRegistered = await User.findOne({ email });
+			if (isAlreadyRegistered) {
+				response.push({
+					email,
+					status: 'Already registered'
+				})
+				continue;
+			}
 			const newUser = new User({
 				name,
 				email,
@@ -68,90 +77,19 @@ const registerInBulkAndSendCredentials = async (req, res) => {
 				password: generateRandomPassword(name),
 			});
 			await newUser.save();
+			response.push({
+				email,
+				status: 'Registered successfully'
+			})
 			await sendCredentials(email, name, newUser.password).then(() => {
 				console.log(`Credentials sent to ${email}`);
 			});
 		}
-		res.status(200).send('Users registered successfully');
+		res.status(200).json(response);
 	} catch (error) {
 		console.log(error);
 		res.status(500).send('Internal server error');
 	}
-};
-
-const verifyOTP = async (req, res) => {
-	try {
-		const { txnId, otp } = req.body;
-		const otpDoc = await OTP.findById(txnId);
-		if (!otpDoc) {
-			return res.status(400).send('Invalid txnId');
-		}
-		if (otpDoc.otp !== otp) {
-			return res.status(400).send('Invalid OTP');
-		}
-		await User.findOneAndUpdate({ isVerified: true });
-		await otpDoc.deleteOne();
-		res.status(200).send('User verified successfully');
-	} catch (error) {
-		console.log(error);
-		res.status(500).send('Internal server error');
-	}
-};
-
-const getUserGroupData = async (groupId) => {
-	const pipeline = [
-		{
-			$match: {
-				_id: groupId,
-			},
-		},
-		{
-			$lookup: {
-				from: 'users', // Name of the 'User' collection
-				localField: 'groupMembers',
-				foreignField: '_id',
-				as: 'groupMembersData',
-			},
-		},
-		{
-			$lookup: {
-				from: 'users', // Name of the 'User' collection
-				localField: 'createdBy',
-				foreignField: '_id',
-				as: 'createdByData',
-			},
-		},
-		{
-			$lookup: {
-				from: 'problemstatements', // Name of the 'ProblemStatement' collection
-				localField: 'problemStatementId',
-				foreignField: '_id',
-				as: 'problemStatementData',
-			},
-		},
-		{
-			$project: {
-				groupNumber: 1,
-				createdAt: 1,
-				groupMembersData: {
-					_id: 1,
-					name: 1,
-					rollNo: 1,
-				},
-				createdByData: {
-					name: 1,
-					rollNo: 1,
-				},
-				problemStatementData: {
-					_id: 1,
-					statement: 1,
-				},
-			},
-		},
-	];
-	const group = await GroupSchema.aggregate(pipeline);
-	console.log(group);
-	return group;
 };
 
 const logIn = async (req, res) => {
@@ -180,7 +118,7 @@ const logIn = async (req, res) => {
 				name: user.name,
 				rollNo: user.rollNo,
 				role: user.role,
-				group: await getUserGroupData(user._id),
+				group: await getUserGroup(user._id),
 			},
 		});
 	} catch (error) {
@@ -197,11 +135,7 @@ const getUserData = async (req, res) => {
 		if (!user) {
 			return res.status(400).send('User not found');
 		}
-		const groupData = await GroupSchema.findOne({
-			groupMembers: { $in: [id] },
-		});
-		let group = [];
-		if (groupData) group = await getUserGroupData(groupData._id);
+		let group = await getUserGroup(id);
 		res.status(200).json({
 			user: {
 				id: user._id,
@@ -218,6 +152,25 @@ const getUserData = async (req, res) => {
 	}
 };
 
+const verifyOTP = async (req, res) => {
+	try {
+		const { txnId, otp } = req.body;
+		const otpDoc = await OTP.findById(txnId);
+		if (!otpDoc) {
+			return res.status(400).send('Invalid txnId');
+		}
+		if (otpDoc.otp !== otp) {
+			return res.status(400).send('Invalid OTP');
+		}
+		await User.findOneAndUpdate({ isVerified: true });
+		await otpDoc.deleteOne();
+		res.status(200).send('User verified successfully');
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal server error');
+	}
+};
+
 module.exports = {
 	register,
 	verifyOTP,
@@ -225,3 +178,12 @@ module.exports = {
 	registerInBulkAndSendCredentials,
 	getUserData,
 };
+
+async function getUserGroup(id) {
+	const groupData = await GroupSchema.findOne({
+		groupMembers: { $in: [id] },
+	});
+	let group = [];
+	if (groupData) group = await getGroupData(groupData._id);
+	return group;
+}

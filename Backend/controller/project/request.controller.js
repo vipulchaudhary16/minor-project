@@ -1,7 +1,7 @@
-const GroupInvitationRequestSchema = require('../schema/Request/GroupInvitationRequest.schema');
+const GroupInvitationRequestSchema = require('../../schema/Request/GroupInvitationRequest.schema');
 const mongoose = require('mongoose');
-const ProjectRequestSchema = require('../schema/Request/ProjectRequest.schema');
-const GroupSchema = require('../schema/Group.schema');
+const ProjectRequestSchema = require('../../schema/Request/ProjectRequest.schema');
+const GroupSchema = require('../../schema/Group.schema');
 
 const getRequests = async (req, res) => {
 	try {

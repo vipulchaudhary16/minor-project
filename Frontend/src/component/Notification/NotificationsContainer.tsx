@@ -28,8 +28,8 @@ export const NotificationsContainer = () => {
 	];
 
 	return (
-		<div className='max-h-screen p-[6rem] overflow-auto'>
-			<div className='bg-[#ebf3fe] mb-[3rem] p-[2.5rem] rounded-lg'>
+		<div className='max-h-screen p-[3rem] overflow-auto'>
+			<div className='bg-[#ebf3fe] mb-[3rem] p-[1.5rem] rounded-lg'>
 				<h2 className='text-[2.2rem] text-[#5d87ff] font-semibold'>
 					Notifications
 				</h2>

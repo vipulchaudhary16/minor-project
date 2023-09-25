@@ -1,9 +1,17 @@
-const ProblemStatement = require('../schema/ProblemStatement.schema');
+const ProblemStatement = require('../../schema/ProblemStatement.schema');
+const  CONSTRAINTS =  require("../../CONSTRAINTS.json")
 
 const addNewProblemStatement = async (req, res) => {
 	try {
 		const { statement, domain } = req.body;
 		const facultyId = req.user.id;
+		const existingProblemStatements = await ProblemStatement.find({
+			facultyId,
+		}).countDocuments();
+		console.log(existingProblemStatements);
+		if (existingProblemStatements >= CONSTRAINTS.MAX_PROBLEM_STATEMENTS_PER_FACULTY) {
+			return res.status(401).send('You have already added limited problem statements.')
+		}
 		const newProblemStatement = new ProblemStatement({
 			facultyId,
 			statement,

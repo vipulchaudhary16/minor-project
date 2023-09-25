@@ -1,5 +1,27 @@
 [Project planning doc](https://docs.google.com/document/d/1vV0ccrTvSbXZSKeeJVSau3ICzg6S4JitmYebEuKUD1o/edit)
 
+### Admin  creds
+
+email : "sophia@sot.pdpu.ac.in"
+password : "Sophiarro2xy0e"
+
+Faculty:
+pratik@sot.pdpu.ac.in
+Pratik0rutdgjv
+
+harsh@sot.pdpu.ac.in
+Harshph0h5xe9
+
+Student:
+rushi@sot.pdpu.ac.in
+Rushi9jb580ic
+
+vipul@sot.pdpu.ac.in
+Vipulu7j4ehzt
+
+Devo34h4yr8
+
+
 ### Test Notes
 
 Module : Group

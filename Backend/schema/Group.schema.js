@@ -20,10 +20,6 @@ const groupSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
-	problemStatementId: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'ProblemStatement',
-	},
 });
 
 module.exports = mongoose.model('Group', groupSchema);

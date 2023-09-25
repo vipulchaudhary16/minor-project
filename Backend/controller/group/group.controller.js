@@ -2,6 +2,7 @@ const GroupSchema = require('../../schema/Group.schema');
 const mongoose = require('mongoose');
 const User = require('../../schema/User.schema');
 const { sendInviteRequest } = require('./invitation.controller');
+const ProblemStatement = require('../../schema/ProblemStatement.schema');
 
 /**
  * Create a new group (server function)
@@ -17,9 +18,9 @@ const create = async (req, res) => {
 
 	try {
 		const userId = req.user.id;
-		// check if user is already in a group
 		const { members } = req.body;
-
+		
+		// check if user is already in a group
 		if (await GroupSchema.findOne({ groupMembers: { $in: [userId] } })) {
 			return res.status(400).send('You are already in a group');
 		}
@@ -102,7 +103,86 @@ const getUnGroupedUsers = async (req, res) => {
 	}
 };
 
+const getGroupData = async (groupId) => {
+	const pipeline = [
+		{
+			$match: {
+				_id: groupId,
+			},
+		},
+		{
+			$lookup: {
+				from: 'users',
+				localField: 'groupMembers',
+				foreignField: '_id',
+				as: 'groupMembersData',
+			},
+		},
+		{
+			$lookup: {
+				from: 'users',
+				localField: 'createdBy',
+				foreignField: '_id',
+				as: 'createdByData',
+			},
+		},
+		{
+			$unwind: '$createdByData',
+		},
+		{
+			$project: {
+				groupNumber: 1,
+				createdAt: 1,
+				groupMembersData: {
+					_id: 1,
+					name: 1,
+					rollNo: 1,
+				},
+				createdByData: {
+					name: 1,
+					rollNo: 1,
+				},
+			},
+		},
+	];
+	const group = await GroupSchema.aggregate(pipeline);
+	if (group[0]) {
+		const groupId = group[0]._id;
+		const problemStatement = await ProblemStatement.findOne({
+			selectedBy: groupId,
+		}, {
+			statement: 1,
+			_id: 1,
+		});
+		group[0].selectedProblemStatement = problemStatement;
+	}
+	return group[0] ?? null;
+};
+
+const getGroupsWorkingUnderFaculty = async (req, res) => {
+	try {
+		const userId = req.user.id;
+		const selectedProblems = await ProblemStatement.find({
+			facultyId: userId,
+			selectedBy: { $ne: null },
+		});
+		const groups = selectedProblems.map((problem) => problem.selectedBy);
+		const groupDataPromises = groups.map(async (group) => {
+			return await getGroupData(group._id);
+		});
+
+		const response = await Promise.all(groupDataPromises);
+
+		return res.status(200).json(response);
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal server error');
+	}
+};
+
 module.exports = {
 	create,
 	getUnGroupedUsers,
+	getGroupData,
+	getGroupsWorkingUnderFaculty
 };
