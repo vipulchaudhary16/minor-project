@@ -7,12 +7,13 @@ import { useSelector } from 'react-redux';
 import { userSelector } from '../../store/user/user.selector';
 import { toast } from 'react-toastify';
 import { Loader } from '../Utils/Loader';
+import PageHeading from '../PageHeading';
 
 export const ProjectSectionStudent = () => {
 	const [projectList, setProjectList] = useState([]);
 	const [isFormOpen, setIsFormOpen] = useState(false);
 	const user = useSelector(userSelector);
-	const columns = ['Project Title', 'Domain', 'Faculty Name', 'Action'];
+	const columns = ['Problem Statements', 'Domain', 'Faculty Name', 'Action'];
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -56,11 +57,7 @@ export const ProjectSectionStudent = () => {
 				</PopUp>
 			) : null}
 			<div className='max-h-screen p-[6rem] overflow-auto'>
-				<div className='bg-[#ebf3fe] mb-[3rem] p-[2.5rem] rounded-lg'>
-					<h2 className='text-[2.2rem] text-[#5d87ff] font-semibold'>
-						Project List
-					</h2>
-				</div>
+				<PageHeading title='Project Lists' />
 				<div className='flex justify-between items-center mb-[2rem]'>
 					{user && user.role === 1 ? (
 						<button
@@ -71,7 +68,7 @@ export const ProjectSectionStudent = () => {
 						</button>
 					) : null}
 				</div>
-				<div className='card p-[2.5rem] rounded-lg'>
+				<div className='card p-[2.5rem] rounded-3xl'>
 					{loading ? (
 						<Loader heading='Loading projects' />
 					) : (

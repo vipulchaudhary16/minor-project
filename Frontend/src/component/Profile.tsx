@@ -1,28 +1,23 @@
-import { useSelector } from 'react-redux';
-import { userSelector } from '../store/user/user.selector';
-import { ProfileFaculty } from './Faculty/ProfileCard';
-import { ProfileCardStudent } from './Student/ProfileCard';
+import { useSelector } from "react-redux";
+import { userSelector } from "../store/user/user.selector";
+import { ProfileFaculty } from "./Faculty/ProfileCard";
+import { ProfileCardStudent } from "./Student/ProfileCard";
+import PageHeading from "./PageHeading";
 
 const Profile = () => {
-	const user = useSelector(userSelector);
+  const user = useSelector(userSelector);
 
-	return (
-		<>
-			<div className=''>
-				<div className='max-h-screen p-[3rem] overflow-auto'>
-					<div className='bg-[#ebf3fe] mb-[3rem] p-[1.5rem] rounded-lg'>
-						<h2 className='text-[2.2rem] text-[#5d87ff] font-semibold'>
-							Profile
-						</h2>
-					</div>
-					<div className='card p-[3.5rem] rounded-lg'>
-						{user.role === 1 ? <ProfileFaculty /> : <></>}
-						{user.role === 2 ? <ProfileCardStudent /> : <></>}
-					</div>
-				</div>
-			</div>
-		</>
-	);
+  return (
+    <>
+      <div className="max-h-screen p-[6rem] overflow-auto">
+        <PageHeading title="Profile" />
+        <div className="">
+          {user.role === 1 ? <ProfileFaculty /> : <></>}
+          {user.role === 2 ? <ProfileCardStudent /> : <></>}
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default Profile;

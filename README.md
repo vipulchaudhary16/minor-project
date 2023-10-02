@@ -54,3 +54,10 @@ TODO Backlog:
 - Faculty ma send request button hide karvu padse
 - ek group ma ek project j aapvani
 - reqquest accept thaya bad reject na kari sake
+
+
+TODO's Written by Rushi
+- On tab change, Every time loading naa thavu joia that means api call na thavu joia
+- Vipul combine requests so that we don't need to show differently
+- Accept, Reject n Withdraw handling in request card
+- Change received request layout
