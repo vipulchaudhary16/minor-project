@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const fs = require('fs');
 
 const transporter = nodemailer.createTransport({
 	service: 'gmail',
@@ -9,11 +10,14 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendOTP = async (email, generatedOTP) => {
+	const emailTemplate = fs.readFileSync("./views/mails/otp.html", "utf-8");
+	console.log(emailTemplate);
 	const mailOptions = {
 		from: process.env.MAIL,
 		to: email,
 		subject: 'Verify your mail for Comprehensive Project Portal',
-		html: `<p>Your Verification code is : <strong>${generatedOTP}</strong></p>`,
+		// html: `<p>Your Verification code is : <strong>${generatedOTP}</strong></p>`,
+		html: emailTemplate.replace("{{otp}}", generatedOTP),
 	};
 	return await transporter.sendMail(mailOptions);
 };
