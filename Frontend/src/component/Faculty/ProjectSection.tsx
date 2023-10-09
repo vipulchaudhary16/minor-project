@@ -12,7 +12,7 @@ export const ProjectSectionFaculty = () => {
 	const [projectList, setProjectList] = useState([]);
 	const [isFormOpen, setIsFormOpen] = useState(false);
 	const user = useSelector(userSelector);
-	const columns = ['Project Title', 'Domain', 'Selected Group', 'Action'];
+	const columns = ['Problem Statements', 'Domain', 'Selected Group', 'Action'];
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
