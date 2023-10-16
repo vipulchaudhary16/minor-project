@@ -19,7 +19,7 @@ const create = async (req, res) => {
 	try {
 		const userId = req.user.id;
 		const { members } = req.body;
-		
+
 		// check if user is already in a group
 		if (await GroupSchema.findOne({ groupMembers: { $in: [userId] } })) {
 			return res.status(400).send('You are already in a group');

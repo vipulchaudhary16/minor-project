@@ -1,5 +1,6 @@
 const ProblemStatement = require('../../schema/ProblemStatement.schema');
-const  CONSTRAINTS =  require("../../CONSTRAINTS.json")
+const CONSTRAINTS = require("../../CONSTRAINTS.json")
+const mongoose = require('mongoose');
 
 const addNewProblemStatement = async (req, res) => {
 	try {
@@ -45,108 +46,68 @@ const updateProblemStatement = async (req, res) => {
 
 const getProblemStatements = async (req, res) => {
 	try {
-		const { facultyId } = req.query;
+		const { facultyId, q } = req.query;
+		const pipeline = [];
 		if (facultyId) {
-			const pipeline = [
-				{
-					$lookup: {
-						from: 'groups',
-						localField: 'selectedBy',
-						foreignField: '_id',
-						as: 'selectedBy',
-					},
-				},
-				{
-					$unwind: {
-						path: '$selectedBy',
-						preserveNullAndEmptyArrays: true,
-					},
-				},
-				{
-					$project: {
-						_id: 1,
-						statement: 1,
-						domain: 1,
-						selectedBy: {
-							_id: '$selectedBy._id',
-							groupNumber: '$selectedBy.groupNumber',
-						},
-					},
-				},
-			];
-			const problemStatementDetails = await ProblemStatement.aggregate(
-				pipeline
-			);
-			return res.status(200).json(problemStatementDetails);
-		} else {
-			const pipeline = [
-				{
-					$lookup: {
-						from: 'users',
-						localField: 'facultyId',
-						foreignField: '_id',
-						as: 'faculty',
-					},
-				},
-				{
-					$unwind: '$faculty',
-				},
-				{
-					$lookup: {
-						from: 'groups',
-						localField: 'selectedBy',
-						foreignField: '_id',
-						as: 'selectedBy',
-					},
-				},
-				{
-					$unwind: {
-						path: '$selectedBy',
-						preserveNullAndEmptyArrays: true,
-					},
-				},
-				{
-					$project: {
-						_id: 1,
-						faculty: { _id: '$faculty._id', name: '$faculty.name' },
-						statement: 1,
-						domain: 1,
-						selectedBy: {
-							_id: '$selectedBy._id',
-							groupNumber: '$selectedBy.groupNumber',
-						},
-					},
-				},
-			];
-			const problemStatementDetails = await ProblemStatement.aggregate(
-				pipeline
-			);
-			return res.status(200).json(problemStatementDetails);
+			pipeline.push({
+				$match: {
+					facultyId: new mongoose.Types.ObjectId(facultyId)
+				}
+			})
 		}
-	} catch (error) {
-		console.log(error);
-		res.status(500).send('Internal server error');
-	}
-};
-
-const searchInProblemStatements = async (req, res) => {
-	try {
-		const { facultyId, q, domain } = req.query;
-		const searchConditions = {};
 		if (q) {
-			searchConditions.$or = [
-				{ statement: { $regex: q, $options: 'i' } },
-				{ domain: { $regex: q, $options: 'i' } },
-			];
+			pipeline.push({
+				$match: {
+					$or: [
+						{ statement: { $regex: q, $options: 'i' } },
+						{ domain: { $regex: q, $options: 'i' } },
+					],
+				},
+			})
 		}
-		if (domain) {
-			searchConditions.domain = domain;
-		}
-		if (facultyId) {
-			searchConditions.facultyId = facultyId;
-		}
-		const matchingStatements = await ProblemStatement.find(searchConditions);
-		res.status(200).json(matchingStatements);
+		pipeline.push(...[
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'facultyId',
+					foreignField: '_id',
+					as: 'faculty',
+				},
+			},
+			{
+				$unwind: '$faculty',
+			},
+			{
+				$lookup: {
+					from: 'groups',
+					localField: 'selectedBy',
+					foreignField: '_id',
+					as: 'selectedBy',
+				},
+			},
+			{
+				$unwind: {
+					path: '$selectedBy',
+					preserveNullAndEmptyArrays: true,
+				},
+			},
+			{
+				$project: {
+					_id: 1,
+					faculty: { _id: '$faculty._id', name: '$faculty.name' },
+					statement: 1,
+					domain: 1,
+					selectedBy: {
+						_id: '$selectedBy._id',
+						groupNumber: '$selectedBy.groupNumber',
+					},
+				},
+			},
+		])
+		const problemStatementDetails = await ProblemStatement.aggregate(
+			pipeline
+		);
+		return res.status(200).json(problemStatementDetails);
 	} catch (error) {
 		console.log(error);
 		res.status(500).send('Internal server error');
@@ -167,6 +128,5 @@ module.exports = {
 	addNewProblemStatement,
 	updateProblemStatement,
 	getProblemStatements,
-	searchInProblemStatements,
 	getAllDomains,
 };

@@ -31,8 +31,8 @@ const sendInviteRequest = async (fromId, groupId, memberIds) => {
  * Invite a members to join a group, (server function)
  * @type: POST
  * @body
-    - groupId : String == id of the group
-    - memberIds : [] == ids of the members to whom the request is sent
+	- groupId : String == id of the group
+	- memberIds : [] == ids of the members to whom the request is sent
  */
 const inviteMember = async (req, res) => {
 	try {
@@ -56,7 +56,7 @@ const inviteMember = async (req, res) => {
  * Accept a group invitation (server function)
  * @type: POST
  * @params
-  	- invitationId : String == id of the invitation
+		- invitationId : String == id of the invitation
  */
 const updateGroupInvitation = async (req, res) => {
 	try {
@@ -82,11 +82,17 @@ const updateGroupInvitation = async (req, res) => {
 				.status(400)
 				.send('You are not authorized to accept this invitation');
 		}
-
 		if (status === 'rejected') {
 			await updateInvitationStatus(invitationId, 'rejected');
 			return res.status(200).send('Invitation rejected');
 		} else if (status === 'accepted') {
+			// check if the user is already in a group
+			const group = await GroupSchema.findOne({
+				groupMembers: { $in: [userId] },
+			})
+			if (group) {
+				return res.status(400).send('You are already in a group');
+			}
 			// update the invitation status to accepted
 			await updateInvitationStatus(invitationId, 'accepted');
 			// add the user to the group
