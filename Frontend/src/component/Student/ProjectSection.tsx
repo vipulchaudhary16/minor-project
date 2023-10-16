@@ -1,81 +1,73 @@
-import { useEffect, useState } from 'react';
-import ProjectTable from '../ProjectTable';
-import axios from 'axios';
-import PopUp from '../PopUp';
-import AddProblemStatementForm from '../Faculty/AddProblemStatement';
-import { useSelector } from 'react-redux';
-import { userSelector } from '../../store/user/user.selector';
-import { toast } from 'react-toastify';
-import { Loader } from '../Utils/Loader';
-import PageHeading from '../PageHeading';
+import { useEffect, useState } from "react";
+import ProjectTable from "../ProjectTable";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { Loader } from "../Utils/Loader";
+import PageHeading from "../PageHeading";
+import SearchBar from "../Utils/SearchBar";
+import FilterDropDown from "../Utils/FilterDropDown";
 
 export const ProjectSectionStudent = () => {
-	const [projectList, setProjectList] = useState([]);
-	const [isFormOpen, setIsFormOpen] = useState(false);
-	const user = useSelector(userSelector);
-	const columns = ['Problem Statements', 'Domain', 'Faculty Name', 'Action'];
-	const [loading, setLoading] = useState(false);
+  const [projectList, setProjectList] = useState([]);
+  const columns = [
+    "Problem Statements",
+    "Domain",
+    "Faculty Name",
+    "Selected By",
+    "Action",
+  ];
+  const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [facultyFilter, setFacultyFilter] = useState("");
 
-	useEffect(() => {
-		fetchProjectList();
-	}, []);
+  useEffect(() => {
+    handleSearch();
+  }, []);
 
-	const fetchProjectList = async () => {
-		setLoading(true);
-		try {
-			let url = 'http://localhost:8080';
-			if (user?.role === 1) {
-				//faculty
-				url += '/api/problemStatement/?facultyId=' + user.id;
-			} else {
-				//student
-				url += '/api/problemStatement/';
-			}
-			const res = await axios.get(url);
-			setProjectList(res.data);
-		} catch (error) {
-			toast.error('Something went wrong');
-		} finally {
-			setLoading(false);
-		}
-	};
+  const handleSearch = async () => {
+    setLoading(true);
+    try {
+      let url = "http://localhost:8080";
+      url += `/api/problemStatement/?q=${searchQuery}`;
+      if (facultyFilter) {
+        url += `&facultyId=${facultyFilter}`;
+      }
+      const res = await axios.get(url);
+      setProjectList(res.data);
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-	const handleOnSuccess = () => {
-		setIsFormOpen(false);
-		fetchProjectList();
-	};
+  const handleFacultyFilter = async (e: any) => {
+    const value = e.target.value;
+    setFacultyFilter(value);
+  };
 
-	return (
-		<>
-			{user && user.role === 1 ? (
-				<PopUp
-					setIsOpen={setIsFormOpen}
-					isOpen={isFormOpen}
-					heading='Add Project'
-				>
-					<AddProblemStatementForm onSuccess={handleOnSuccess} />
-				</PopUp>
-			) : null}
-			<div className='max-h-screen p-[6rem] overflow-auto'>
-				<PageHeading title='Project Lists' />
-				<div className='flex justify-between items-center mb-[2rem]'>
-					{user && user.role === 1 ? (
-						<button
-							className='bg-[#5d87ff] text-white px-[1.5rem] py-[0.5rem] rounded-lg'
-							onClick={() => setIsFormOpen(true)}
-						>
-							Add Project
-						</button>
-					) : null}
-				</div>
-				<div className='card p-[2.5rem] rounded-3xl'>
-					{loading ? (
-						<Loader heading='Loading projects' />
-					) : (
-						<ProjectTable projects={projectList} columns={columns} />
-					)}
-				</div>
-			</div>
-		</>
-	);
+  return (
+    <>
+      <div className="max-h-screen p-[6rem] overflow-auto">
+        <PageHeading title="Project Lists" />
+        <div className="flex flex-row-reverse gap-4 pb-4">
+          <FilterDropDown onChange={handleFacultyFilter} />
+          <SearchBar
+            query={searchQuery}
+            querySetter={setSearchQuery}
+            onSearch={handleSearch}
+            placeholder="Search by problem statement and domain"
+          ></SearchBar>
+        </div>
+
+        <div className="card p-[2.5rem] rounded-3xl">
+          {loading ? (
+            <Loader heading="Loading projects" />
+          ) : (
+            <ProjectTable projects={projectList} columns={columns} />
+          )}
+        </div>
+      </div>
+    </>
+  );
 };

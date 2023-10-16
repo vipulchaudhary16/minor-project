@@ -1,5 +1,4 @@
 import { Group } from "../../types/index.types";
-import { Table } from "../Table";
 
 interface GroupTableProps {
   groupInformation: Group;

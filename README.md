@@ -45,8 +45,6 @@ Module : project request
 1. Accept project request - done
 2. Reject project request - done
 
-
-
 TODO Backlog:
 
 - Faculty hoi to sent request array always empty j rakhvani ya to hide rakhvani
@@ -54,6 +52,7 @@ TODO Backlog:
 - Faculty ma send request button hide karvu padse
 - ek group ma ek project j aapvani
 - reqquest accept thaya bad reject na kari sake
+- Dynamic navbar items based on role and choice
 
 
 TODO's Written by Rushi

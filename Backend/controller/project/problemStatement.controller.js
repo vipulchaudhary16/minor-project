@@ -54,7 +54,8 @@ const getProblemStatements = async (req, res) => {
 					facultyId: new mongoose.Types.ObjectId(facultyId)
 				}
 			})
-		} else if (q) {
+		}
+		if (q) {
 			pipeline.push({
 				$match: {
 					$or: [

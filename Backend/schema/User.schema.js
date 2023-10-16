@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	choice: {
+		type: String,
+		enum: ['IND', 'INH'],
+	},
 	role: {
 		type: Number,
 		required: true,

@@ -7,6 +7,12 @@ const generateOTP = () => {
 	return otp;
 };
 
+const generateRandomPassword = (name) => {
+	const randomPassword = Math.random().toString(36).slice(-8);
+	return `${name.split(' ')[0]}${randomPassword}`;
+};
+
 module.exports = {
 	generateOTP,
+	generateRandomPassword
 };
