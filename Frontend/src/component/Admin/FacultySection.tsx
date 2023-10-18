@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Table } from "./Table";
 import { TD } from "../Table/TD";
+import { Loader } from "../Utils/Loader";
 
 export type Faculty = {
   _id: string;
@@ -24,9 +25,11 @@ const columns = ["Name", "Email", "Problem Statements"];
 
 export const FacultySection = () => {
   const [users, setUsers] = useState<Faculty[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
+      setLoading(true);
       try {
         const res = await axios.get(
           "http://localhost:8080/api/user/users?type=1"
@@ -35,24 +38,29 @@ export const FacultySection = () => {
       } catch (error) {
         toast.error("Something went wrong");
       }
+      setLoading(false);
     };
     fetchUsers();
   }, []);
   return (
     <div>
-      <Table columns={columns}>
-        {users.map((user) => (
-          <tr>
-            <TD data={user.name} />
-            <TD data={user.email} />
-            <TD
-              data={
-                user.problemStatements ? user.problemStatements.length : "0"
-              }
-            />
-          </tr>
-        ))}
-      </Table>
+      {loading ? (
+        <Loader heading="Loading users" />
+      ) : (
+        <Table columns={columns}>
+          {users.map((user) => (
+            <tr>
+              <TD data={user.name} />
+              <TD data={user.email} />
+              <TD
+                data={
+                  user.problemStatements ? user.problemStatements.length : "0"
+                }
+              />
+            </tr>
+          ))}
+        </Table>
+      )}
     </div>
   );
 };

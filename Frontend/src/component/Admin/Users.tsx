@@ -23,14 +23,13 @@ export const Users = () => {
       </PopUp>
       <div className="max-h-screen p-[6rem] overflow-auto">
         <PageHeading title="Users" />
-        <div className="">
           <button
             className="bg-[#5d87ff] text-white py-[.5rem] px-[1.5rem] rounded-md text-[1.5rem] font-semibold"
             onClick={() => setIsOpen(true)}
           >
             Add Users
           </button>
-
+        <div className="my-[1rem]">
           <div className="border-b border-gray-200">
             <nav className="flex gap-[1.5rem]">
               {tabs.map((tab, index) => (

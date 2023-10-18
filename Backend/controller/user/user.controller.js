@@ -76,7 +76,7 @@ const getUsers = async (req, res) => {
 			projection.rollNo = 1;
 		}
 
-		const users = await User.find(usersQuery, projection);
+		const users = await User.find(usersQuery, projection).sort({ rollNo: 1, name: 1 })
 		let response = users;
 
 		// Student
