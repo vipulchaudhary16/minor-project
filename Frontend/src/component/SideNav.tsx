@@ -2,12 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { setUser } from "../store/user/user.slice";
 import { userSelector } from "../store/user/user.selector";
-
-interface NavLink {
-  label: string;
-  url: string;
-  choice?: "IND" | "INH";
-}
+import { getNavlinks } from "../utils/navigation";
+import { role_to_string } from "../utils/const_mappers";
 
 interface NavProps {
   role: number;
@@ -16,23 +12,7 @@ const SideNav: React.FC<NavProps> = ({ role }) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const role_to_link: { [key: number]: string } = {
-    1: "/faculty",
-    2: "/student",
-    0: "/admin",
-  };
-
   const user = useSelector(userSelector);
-
-  const navLinks: Array<NavLink> = [
-    { label: "Profile", url: role_to_link[role] },
-    {
-      label: "Project List",
-      url: role_to_link[role] + "/problem-list",
-      choice: "INH",
-    },
-    { label: "Notifications", url: role_to_link[role] + "/updates" },
-  ];
 
   const logOutUser = () => {
     localStorage.clear();
@@ -50,10 +30,10 @@ const SideNav: React.FC<NavProps> = ({ role }) => {
           PDEU
         </Link>
         <ul className="flex flex-col gap-[1rem]">
-          {user && navLinks.map((navlink, index) => (
-            <>
-              {navlink.choice ? (
-                navlink.choice == user.choice && (
+          {user &&
+            getNavlinks(role_to_string[role], user.choice).map(
+              (navlink, index) => (
+                <>
                   <Link
                     to={navlink.url}
                     key={index}
@@ -65,22 +45,9 @@ const SideNav: React.FC<NavProps> = ({ role }) => {
                   >
                     {navlink.label}
                   </Link>
-                )
-              ) : (
-                <Link
-                  to={navlink.url}
-                  key={index}
-                  className={`${
-                    navlink.url === location.pathname
-                      ? "bg-[#5d87ff1a] text-[#5d87ff]"
-                      : ""
-                  } p-[1.1rem] text-[1.35rem] text-[#2a3547] font-medium cursor-pointer rounded-lg hover:bg-[#5d87ff1a] hover:text-[#5d87ff]`}
-                >
-                  {navlink.label}
-                </Link>
-              )}
-            </>
-          ))}
+                </>
+              )
+            )}
         </ul>
       </div>
       <div>
