@@ -112,7 +112,7 @@ export const Request: React.FC<RequestProps> = ({
           <div className="text-center">
             <button
               type="submit"
-              className="w-full bg-[#5d87ff] text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]"
+              className="w-full bg-primary-color text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]"
             >
               Send
             </button>

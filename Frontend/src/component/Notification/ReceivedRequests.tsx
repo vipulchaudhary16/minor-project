@@ -40,8 +40,8 @@ export const ReceivedRequests: React.FC<ReceivedRequestsProps> = ({
 
 	return (
 		<div className='py-4'>
-			<div className='bg-[#ebf3fe] p-[1.5rem] rounded-lg'>
-				<h2 className='text-[1.5rem] text-[#5d87ff] font-semibold'>
+			<div className='bg-secondary-color p-[1.5rem] rounded-lg'>
+				<h2 className='text-[1.5rem] text-primary-color font-semibold'>
 					Group Requests
 				</h2>
 			</div>
@@ -54,8 +54,8 @@ export const ReceivedRequests: React.FC<ReceivedRequestsProps> = ({
 			) : (
 				<p className='font-bold text-xl p-4'>No Group Requests</p>
 			)}
-			<div className='bg-[#ebf3fe] p-[1.5rem] rounded-lg'>
-				<h2 className='text-[1.5rem] text-[#5d87ff] font-semibold'>
+			<div className='bg-secondary-color p-[1.5rem] rounded-lg'>
+				<h2 className='text-[1.5rem] text-primary-color font-semibold'>
 					Project Requests
 				</h2>
 			</div>

@@ -9,7 +9,7 @@ const Profile = () => {
 
   return (
     <>
-      <div className="max-h-screen p-[6rem] overflow-auto">
+      <div className="max-h-screen p-[3rem] overflow-auto">
         <PageHeading title="Profile" />
         <div className="">
           {user.role === 1 ? <ProfileFaculty /> : <></>}

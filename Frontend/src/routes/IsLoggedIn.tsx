@@ -21,7 +21,7 @@ export const IsLoggedIN: React.FC = () => {
       ) : (
         <ErrorPage
           errorName="LogIn Required"
-          errortext="  Oops! It seems like you have to login to access this page."
+          errortext="Oops! It seems like you have to login to access this page."
           actionName="Go To LogIn"
         />
       )}

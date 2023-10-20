@@ -61,7 +61,7 @@ const AddUsers: React.FC = () => {
             <Loader heading="Adding users" />
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="text-[#5d87ff]">
+          <form onSubmit={handleSubmit} className="text-primary-color">
             <div className="mb-[1.6rem]">
               <label
                 htmlFor="role"
@@ -101,7 +101,7 @@ const AddUsers: React.FC = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-[#5d87ff] text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]"
+              className="w-full bg-primary-color text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]"
             >
               Submit
             </button>

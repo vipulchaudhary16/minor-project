@@ -69,7 +69,7 @@ export const ProjectRowStudent: React.FC<ProjectRowProps> = ({ project }) => {
               {user.group.length > 0 ? (
                 <button
                   type="submit"
-                  className="w-full bg-[#5d87ff] text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]"
+                  className="w-full bg-primary-color text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]"
                 >
                   Send Request
                 </button>
@@ -106,7 +106,7 @@ export const ProjectRowStudent: React.FC<ProjectRowProps> = ({ project }) => {
           <button
             onClick={!project.selectedBy?.groupNumber ? openPopUp : () => {}}
             className={`text-[1.3rem] font-medium  ${
-              !project.selectedBy?.groupNumber && "hover:text-[#5d87ff]"
+              !project.selectedBy?.groupNumber && "hover:text-primary-color"
             }`}
           >
             {!project.selectedBy?.groupNumber ? "Send Request" : "Selected"}

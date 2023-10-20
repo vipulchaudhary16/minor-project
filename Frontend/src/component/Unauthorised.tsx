@@ -21,7 +21,7 @@ const ErrorPage: React.FC<ErrorProps> = ({
       <div className="flex flex-col gap-4 items-center p-8 rounded">
         <h1 className="text-4xl font-bold mb-4">{errorName}</h1>
         <p className="text-gray-600">{errortext}</p>
-        <button className="bg-[#5d87ff] text-white px-[1.5rem] py-[0.5rem] rounded-lg">
+        <button className="bg-primary-color text-white px-[1.5rem] py-[0.5rem] rounded-lg">
           <Link to={nextDestination} className="hover:underline">
             {actionName}
           </Link>

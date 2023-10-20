@@ -125,7 +125,7 @@ const GroupForm = () => {
 						<button
 							type='button'
 							onClick={() => addMember(selectedMember)}
-							className='border border-[#5d87ff] text-[#5d87ff] text-[1.2rem] font-semibold py-[.5rem] px-[1.5rem] rounded-md hover:bg-[#557deb] hover:text-[#fff]'
+							className='border border-primary-color text-primary-color text-[1.2rem] font-semibold py-[.5rem] px-[1.5rem] rounded-md hover:bg-[#557deb] hover:text-[#fff]'
 						>
 							Add
 						</button>
@@ -133,7 +133,7 @@ const GroupForm = () => {
 					<div className='mt-[1.5rem]'>
 						<button
 							type='submit'
-							className='w-full bg-[#5d87ff] text-white text-[1.3rem] font-semibold py-[.8rem] rounded-md hover:bg-[#557deb]'
+							className='w-full bg-primary-color text-white text-[1.3rem] font-semibold py-[.8rem] rounded-md hover:bg-[#557deb]'
 						>
 							Create Group
 						</button>

@@ -55,10 +55,10 @@ const Login: React.FC = () => {
     <>
       <div className="flex items-center justify-center h-screen bg-gray-100">
         <div className="w-1/3 p-[2.5rem] bg-white rounded-lg shadow-md">
-          <h2 className="text-[#5d87ff] text-[2.5rem] font-semibold text-center mb-[1.6rem]">
+          <h2 className="text-primary-color text-[2.5rem] font-semibold text-center mb-[1.6rem]">
             Login
           </h2>
-          <form onSubmit={handleLogin} className="text-[#5d87ff]">
+          <form onSubmit={handleLogin} className="text-primary-color">
             <div className="mb-[1.6rem]">
               <label
                 htmlFor="email"
@@ -97,7 +97,7 @@ const Login: React.FC = () => {
               ) : (
                 <button
                   type="submit"
-                  className="w-full bg-[#5d87ff] text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]"
+                  className="w-full bg-primary-color text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]"
                 >
                   Login
                 </button>
@@ -107,7 +107,7 @@ const Login: React.FC = () => {
           <div className="text-center mt-[1.6rem]">
             <a
               href="#"
-              className="text-[1.2rem] text-[#5d87ff] hover:text-[#557deb] font-medium underline"
+              className="text-[1.2rem] text-primary-color hover:text-[#557deb] font-medium underline"
               onClick={handleForgotPassword}
             >
               Forgot Password?

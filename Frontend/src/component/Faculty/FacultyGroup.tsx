@@ -44,8 +44,8 @@ export const FacultyGroup: React.FC = () => {
 			>
 				<GroupDetailsCard group={selectedGroup} />
 			</PopUp>
-			<div className='bg-[#ebf3fe] p-[1.5rem] rounded-lg'>
-				<h2 className='text-[1.5rem] text-[#5d87ff] font-semibold'>
+			<div className='bg-secondary-color p-[1.5rem] rounded-lg'>
+				<h2 className='text-[1.5rem] text-primary-color font-semibold'>
 					Your Groups
 				</h2>
 			</div>

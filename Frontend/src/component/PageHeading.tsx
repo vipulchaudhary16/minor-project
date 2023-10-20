@@ -4,8 +4,8 @@ interface PageHeadingProps{
 
 const PageHeading : React.FC<PageHeadingProps> = ({title}) => {
   return (
-    <div className="bg-[#ebf3fe] mb-[1rem] p-[1.5rem] rounded-3xl">
-      <h2 className="text-[2.2rem] text-[#5d87ff] font-semibold">
+    <div className="bg-secondary-color mb-[3rem] p-[2.5rem] rounded-3xl">
+      <h2 className="text-[2.2rem] text-primary-color font-semibold">
         {title}
       </h2>
     </div>

@@ -48,14 +48,14 @@ export const ProjectSectionFaculty = () => {
 				<AddProblemStatementForm onSuccess={handleOnSuccess} />
 			</PopUp>
 			<div className='max-h-screen p-[3rem] overflow-auto'>
-				<div className='bg-[#ebf3fe] mb-[3rem] p-[1.5rem] rounded-lg'>
-					<h2 className='text-[2.2rem] text-[#5d87ff] font-semibold'>
+				<div className='bg-secondary-color mb-[3rem] p-[1.5rem] rounded-lg'>
+					<h2 className='text-[2.2rem] text-primary-color font-semibold'>
 						Project List
 					</h2>
 				</div>
 				<div className='flex justify-between items-center mb-[2rem]'>
 					<button
-						className='bg-[#5d87ff] text-white px-[1.5rem] py-[0.5rem] rounded-lg'
+						className='bg-primary-color text-white px-[1.5rem] py-[0.5rem] rounded-lg'
 						onClick={() => setIsFormOpen(true)}
 					>
 						Add Project

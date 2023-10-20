@@ -9,18 +9,18 @@ interface ProblemStatement {
 	id: string;
 }
 
-// export interface NotificationCardProps {
-// 	notification: {
-// 		notificationType: "send" | "receive",
-// 		reqType: "group" | "project",
-// 		reqTo: string,
-// 		reqBy : string,
-// 		reqStatus: "accept" | "reject" | "pending",
-// 		msg: string,
-// 		time: "",
-// 		problemStatement: ProblemStatement,
-// 	  };
-// }
+export interface NotificationCardProps {
+	notification: {
+		notificationType: "send" | "receive",
+		reqType: "group" | "project",
+		reqTo: string,
+		reqBy : string,
+		reqStatus: "accept" | "reject" | "pending",
+		msg: string,
+		time: "",
+		problemStatement: ProblemStatement,
+	  };
+}
 
 // export interface NotificationCardProps {
 // 	notification: {

@@ -24,7 +24,7 @@ export const Users = () => {
       <div className="max-h-screen p-[6rem] overflow-auto">
         <PageHeading title="Users" />
           <button
-            className="bg-[#5d87ff] text-white py-[.5rem] px-[1.5rem] rounded-md text-[1.5rem] font-semibold"
+            className="bg-primary-color text-white py-[.5rem] px-[1.5rem] rounded-md text-[1.5rem] font-semibold"
             onClick={() => setIsOpen(true)}
           >
             Add Users
@@ -38,7 +38,7 @@ export const Users = () => {
                   onClick={() => setActiveTab(index)}
                   className={`text-[1.5rem] uppercase font-semibold whitespace-nowrap py-[1rem] px-[.4rem] border-b-2 ${
                     activeTab === index
-                      ? "border-[#5d87ff] text-[#5d87ff]"
+                      ? "border-primary-color text-primary-color"
                       : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                   }`}
                 >

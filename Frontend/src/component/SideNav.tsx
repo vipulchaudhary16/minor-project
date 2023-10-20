@@ -8,6 +8,7 @@ import { role_to_string } from "../utils/const_mappers";
 interface NavProps {
   role: number;
 }
+
 const SideNav: React.FC<NavProps> = ({ role }) => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -21,15 +22,15 @@ const SideNav: React.FC<NavProps> = ({ role }) => {
   };
 
   return (
-    <div className="card max-h-[95vh] h-[95vh] flex flex-col justify-between px-[4.5rem] py-[2.5rem] rounded-3xl">
+    <div className="card h-full w-full flex flex-col justify-between p-[3rem] rounded-3xl">
       <div className="flex flex-col gap-[3rem]">
         <Link
           to={"/student"}
-          className="text-[#5d87ff] text-[2.5rem] font-bold"
+          className="text-primary-color text-[2.5rem] font-bold"
         >
           PDEU
         </Link>
-        <ul className="flex flex-col gap-[1rem]">
+        <div className="flex flex-col gap-[1rem]">
           {user &&
             getNavlinks(role_to_string[role], user.choice).map(
               (navlink, index) => (
@@ -39,21 +40,21 @@ const SideNav: React.FC<NavProps> = ({ role }) => {
                     key={index}
                     className={`${
                       navlink.url === location.pathname
-                        ? "bg-[#5d87ff1a] text-[#5d87ff]"
-                        : ""
-                    } p-[1.1rem] text-[1.35rem] text-[#2a3547] font-medium cursor-pointer rounded-lg hover:bg-[#5d87ff1a] hover:text-[#5d87ff]`}
+                        ? "bg-primary-color text-white"
+                        : "text-[#2a3547] hover:bg-secondary-color hover:text-primary-color"
+                    } p-[1.1rem] text-[1.35rem] font-medium cursor-pointer rounded-lg`}
                   >
                     {navlink.label}
                   </Link>
                 </>
               )
             )}
-        </ul>
+        </div>
       </div>
       <div>
         <button
           onClick={() => logOutUser()}
-          className="w-full border border-[#5d87ff] text-[1.2rem] text-[#5d87ff] font-semibold py-[1rem] rounded-md hover:bg-[#5d87ff] hover:text-white"
+          className="w-full border border-primary-color text-[1.2rem] text-primary-color font-semibold py-[1rem] rounded-md hover:bg-primary-color hover:text-white"
         >
           Logout
         </button>

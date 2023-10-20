@@ -4,7 +4,6 @@ import { ReceivedRequests } from "./ReceivedRequests";
 import { useSelector } from "react-redux";
 import { userSelector } from "../../store/user/user.selector";
 import PageHeading from "../PageHeading";
-import RequestCard from "./RequestCard";
 
 export const NotificationsContainer = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -30,7 +29,7 @@ export const NotificationsContainer = () => {
   ];
 
   return (
-    <div className="max-h-screen p-[6rem] overflow-auto">
+    <div className="max-h-screen p-[3rem] overflow-auto">
       <PageHeading title="Notifications" />
       <div className="">
         <div className="border-b border-gray-200">
@@ -43,7 +42,7 @@ export const NotificationsContainer = () => {
                     onClick={() => setActiveTab(index)}
                     className={`text-[1.5rem] uppercase font-semibold whitespace-nowrap py-[1rem] px-[.4rem] border-b-2 ${
                       activeTab === index
-                        ? "border-[#5d87ff] text-[#5d87ff]"
+                        ? "border-primary-color text-primary-color"
                         : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                     }`}
                   >
