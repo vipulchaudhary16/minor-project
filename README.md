@@ -60,3 +60,4 @@ TODO's Written by Rushi
 - Vipul combine requests so that we don't need to show differently
 - Accept, Reject n Withdraw handling in request card
 - Change received request layout
+- Change loading design

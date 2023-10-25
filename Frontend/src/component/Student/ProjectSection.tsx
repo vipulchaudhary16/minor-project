@@ -19,10 +19,24 @@ export const ProjectSectionStudent = () => {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [facultyFilter, setFacultyFilter] = useState("");
+  const [facultyList, setFacultyList] = useState([]);
 
   useEffect(() => {
+    fetchFacultyList();
     handleSearch();
   }, []);
+
+  const fetchFacultyList = async () => {
+    try {
+      let url = "http://localhost:8080";
+      url += `/api/user/?type=1`;
+      const res = await axios.get(url);
+      setFacultyList(res.data);
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+    }
+  };
 
   const handleSearch = async () => {
     setLoading(true);
@@ -41,17 +55,18 @@ export const ProjectSectionStudent = () => {
     }
   };
 
-  const handleFacultyFilter = async (e: any) => {
-    const value = e.target.value;
+  const handleFacultyFilter = async (value : string) => {
+    // const value = e.target.value;
+    // alert(value);
     setFacultyFilter(value);
   };
 
   return (
     <>
-      <div className="max-h-screen p-[6rem] overflow-auto">
+      <div className="max-h-screen p-[3rem] overflow-auto">
         <PageHeading title="Project Lists" />
-        <div className="flex flex-row-reverse gap-4 pb-4">
-          <FilterDropDown onChange={handleFacultyFilter} />
+        <div className="flex flex-row-reverse items-center gap-4 pb-4">
+          <FilterDropDown items={facultyList} onChange={handleFacultyFilter} />
           <SearchBar
             query={searchQuery}
             querySetter={setSearchQuery}
@@ -63,6 +78,10 @@ export const ProjectSectionStudent = () => {
         <div className="card p-[2.5rem] rounded-3xl">
           {loading ? (
             <Loader heading="Loading projects" />
+          ) : projectList.length <= 0 ? (
+            <div className="text-[1.4rem] text-[#5A6A85] font-semibold text-center">
+              No matching problem statement found...
+            </div>
           ) : (
             <ProjectTable projects={projectList} columns={columns} />
           )}
