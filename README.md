@@ -1,6 +1,6 @@
 [Project planning doc](https://docs.google.com/document/d/1vV0ccrTvSbXZSKeeJVSau3ICzg6S4JitmYebEuKUD1o/edit)
 
-### Admin  creds
+### Admin creds
 
 email : "sophia@sot.pdpu.ac.in"
 password : "Sophiarro2xy0e"
@@ -24,7 +24,6 @@ Devo34h4yr8
 jonny@sot.pdpu.ac.in
 
 Jonnybim4o8re
-
 
 ### Test Notes
 
@@ -58,8 +57,8 @@ TODO Backlog:
 - reqquest accept thaya bad reject na kari sake
 - Dynamic navbar items based on role and choice
 
-
 TODO's Written by Rushi
+
 - On tab change, Every time loading naa thavu joia that means api call na thavu joia
 - Vipul combine requests so that we don't need to show differently
 - Accept, Reject n Withdraw handling in request card
