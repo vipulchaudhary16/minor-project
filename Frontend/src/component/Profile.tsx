@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { userSelector } from "../store/user/user.selector";
 import { ProfileFaculty } from "./Faculty/ProfileCard";
 import { ProfileCardStudent } from "./Student/Profile/ProfileCard";
-import PageHeading from "./PageHeading";
+import PageHeading from "./Utils/PageHeading";
 
 const Profile = () => {
   const user = useSelector(userSelector);

@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
+<<<<<<< Updated upstream
 import { useSelector } from "react-redux";
 import { userSelector } from "../store/user/user.selector";
 import DefaultLayout from "../layout/DefaultLayout";
 import ErrorPage from "../component/Unauthorised";
+=======
+import SideNav from "../component/SideNav";
+import { useSelector } from "react-redux";
+import { userSelector } from "../store/user/user.selector";
+import ErrorPage from "../component/Utils/Unauthorised";
+>>>>>>> Stashed changes
 
 interface RoleBaseRoutingProps {
   role: number;

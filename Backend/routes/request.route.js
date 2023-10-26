@@ -5,7 +5,7 @@ const {
 	updateRequest,
 	withdrawRequest,
 } = require('../controller/project/projectRequest.controller');
-const { getRequests } = require('../controller/project/request.controller');
+const { getRequests } = require('../controller/notifications/request.controller');
 const router = express.Router();
 
 router.use(verifyToken);

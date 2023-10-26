@@ -1,8 +1,8 @@
 import { useState } from "react";
-import PageHeading from "../PageHeading";
+import PageHeading from "../Utils/PageHeading";
 import { StudentSection } from "./StudentSection";
 import { FacultySection } from "./FacultySection";
-import PopUp from "../PopUp";
+import PopUp from "../Utils/PopUp";
 import AddUsers from "../Forms/AddUsers";
 const tabs = [
   {

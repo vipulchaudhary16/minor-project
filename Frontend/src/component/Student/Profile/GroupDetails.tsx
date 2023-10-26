@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PopUp from "../../PopUp";
+import PopUp from "../../Utils/PopUp";
 import GroupForm from "../GroupForm";
 import { GroupTable } from "../GroupTable";
 

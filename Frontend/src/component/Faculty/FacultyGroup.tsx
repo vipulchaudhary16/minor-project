@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import { Loader } from '../Utils/Loader';
-import PopUp from '../PopUp';
+import PopUp from '../Utils/PopUp';
 import { GroupDetailsCard } from '../cards/GroupDetailsCard';
 
 const columns = ['Sr.', 'Group Name', , 'Project', 'Action'];

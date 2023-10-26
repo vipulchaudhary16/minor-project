@@ -3,7 +3,7 @@ import ProjectTable from "../ProjectTable";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Loader } from "../Utils/Loader";
-import PageHeading from "../PageHeading";
+import PageHeading from "../Utils/PageHeading";
 import SearchBar from "../Utils/SearchBar";
 import FilterDropDown from "../Utils/FilterDropDown";
 

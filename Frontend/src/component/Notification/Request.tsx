@@ -3,7 +3,7 @@ import { TRequest } from "../../types/request.types";
 import { RequestDetails } from "./RequestDetails";
 import axios from "axios";
 import { toast } from "react-toastify";
-import PopUp from "../PopUp";
+import PopUp from "../Utils/PopUp";
 import { convertTimeIntoIST } from "../../utils/functions";
 import RequestCard from "./RequestCard";
 

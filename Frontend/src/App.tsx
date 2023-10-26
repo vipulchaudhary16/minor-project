@@ -5,7 +5,7 @@ import Login from "./component/Forms/Login";
 import { RoleBaseRouting } from "./routes/RoleBaseRouting";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Error404 from "./component/Error404";
+import Error404 from "./component/Utils/Error404";
 import { useDispatch, useSelector } from "react-redux";
 import { userSelector } from "./store/user/user.selector";
 import axios from "axios";

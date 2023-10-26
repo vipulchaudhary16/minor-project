@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { userSelector } from '../../store/user/user.selector';
-import PopUp from '../PopUp';
+import PopUp from '../Utils/PopUp';
 import AddProblemStatementForm from './AddProblemStatement';
 import ProjectTable from '../ProjectTable';
 import { Loader } from '../Utils/Loader';

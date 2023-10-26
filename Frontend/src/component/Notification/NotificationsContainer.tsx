@@ -3,7 +3,12 @@ import { SentRequests } from "./SentRequests";
 import { ReceivedRequests } from "./ReceivedRequests";
 import { useSelector } from "react-redux";
 import { userSelector } from "../../store/user/user.selector";
+<<<<<<< Updated upstream
 import PageHeading from "../PageHeading";
+=======
+import PageHeading from "../Utils/PageHeading";
+import RequestCard from "./RequestCard";
+>>>>>>> Stashed changes
 
 export const NotificationsContainer = () => {
   const [activeTab, setActiveTab] = useState(0);
