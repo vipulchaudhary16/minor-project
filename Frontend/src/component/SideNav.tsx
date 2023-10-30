@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setUser } from "../store/user/user.slice";
 import { userSelector } from "../store/user/user.selector";
 import { getNavlinks } from "../utils/navigation";
@@ -10,15 +10,17 @@ interface NavProps {
 }
 
 const SideNav: React.FC<NavProps> = ({ role }) => {
+  const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
 
   const user = useSelector(userSelector);
 
   const logOutUser = () => {
-    localStorage.clear();
+    // window.location.href = "/";
+    navigate('/');
     dispatch(setUser(null));
-    window.location.href = "/";
+    localStorage.clear();
   };
 
   return (

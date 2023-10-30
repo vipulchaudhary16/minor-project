@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { userSelector } from "../store/user/user.selector";
 import { ProfileFaculty } from "./Faculty/ProfileCard";
-import { ProfileCardStudent } from "./Student/Profile/ProfileCard";
+import { ProfileStudent } from "./Student/Profile/ProfileStudent";
 import PageHeading from "./Utils/PageHeading";
 
 const Profile = () => {
@@ -13,7 +13,7 @@ const Profile = () => {
         <PageHeading title="Profile" />
         <div className="">
           {user.role === 1 ? <ProfileFaculty /> : <></>}
-          {user.role === 2 ? <ProfileCardStudent /> : <></>}
+          {user.role === 2 ? <ProfileStudent /> : <></>}
         </div>
       </div>
     </>

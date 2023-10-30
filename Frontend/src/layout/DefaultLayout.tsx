@@ -30,7 +30,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ role, children }) => {
         <div
           className={`${
             showSidebar ? "col-span-3" : "col-span-1"
-          } p-[3rem] flex gap-[1rem]`}
+          } p-[3rem] pr-0 flex gap-[2rem]`}
         >
           <div
             className={`${

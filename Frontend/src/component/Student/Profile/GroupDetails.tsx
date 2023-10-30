@@ -38,7 +38,7 @@ export const GroupDetails : React.FC<Props> = ({user}) => {
             </div>
           ) : (
             <>
-              <GroupTable groupInformation={user.group[0]} />
+              <GroupTable groupInformation={user.group} />
             </>
           )}
         </div>
