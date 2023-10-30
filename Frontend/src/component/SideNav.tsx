@@ -56,7 +56,7 @@ const SideNav: React.FC<NavProps> = ({ role }) => {
       <div>
         <button
           onClick={() => logOutUser()}
-          className="w-full border border-primary-color text-[1.2rem] text-primary-color font-semibold py-[1rem] rounded-md hover:bg-primary-color hover:text-white"
+          className="w-full border border-primary-color text-[1.2rem] text-primary-color font-semibold py-[1rem] rounded-lg hover:bg-primary-color hover:text-white"
         >
           Logout
         </button>

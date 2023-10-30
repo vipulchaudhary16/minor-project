@@ -66,14 +66,14 @@ const IndustryForm: React.FC = () => {
             type="file"
             name="offerLetter"
             onChange={handleFileChange}
-            className="w-full px-[1.2rem] py-[.8rem] border rounded-md  focus:outline-none focus:ring-1 focus:ring-[#557deb] text-[1.2rem]"
+            className="w-full px-[1.2rem] py-[.8rem] border rounded-lg  focus:outline-none focus:ring-1 focus:ring-[#557deb] text-[1.2rem]"
             required
           />
         </div>
 
         <button 
         type="submit" 
-        className='col-start-2 w-1/3 ml-auto bg-primary-color text-white text-[1.3rem] font-semibold py-[.8rem] rounded-md hover:bg-[#557deb]'
+        className='col-start-2 w-1/3 ml-auto mt-[1rem] bg-primary-color text-white text-[1.3rem] font-semibold py-[.8rem] rounded-lg hover:bg-[#557deb]'
         >
           Submit
         </button>

@@ -80,7 +80,7 @@ const Login: React.FC = () => {
               ) : (
                 <button
                   type="submit"
-                  className="w-full bg-primary-color text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]"
+                  className="w-full bg-primary-color text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-lg hover:bg-[#557deb]"
                 >
                   Login
                 </button>

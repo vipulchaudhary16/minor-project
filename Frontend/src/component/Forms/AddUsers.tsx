@@ -71,7 +71,7 @@ const AddUsers: React.FC = () => {
               </label>
               <select
                 id="role"
-                className="w-full px-[1.2rem] py-[.8rem] border rounded-md focus:outline-none focus:ring-1 focus:ring-[#557deb] text-[1.2rem]"
+                className="w-full px-[1.2rem] py-[.8rem] border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#557deb] text-[1.2rem]"
                 onChange={(e) => {
                   setRole(parseInt(e.target.value));
                 }}
@@ -92,7 +92,7 @@ const AddUsers: React.FC = () => {
                 type="file"
                 id="file"
                 accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                className="w-full px-[1.2rem] py-[.8rem] border rounded-md focus:outline-none focus:ring-1 focus:ring-[#557deb] text-[1.2rem]"
+                className="w-full px-[1.2rem] py-[.8rem] border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#557deb] text-[1.2rem]"
                 onChange={(e) => {
                   setFile(e.target.files![0]);
                 }}
@@ -101,7 +101,7 @@ const AddUsers: React.FC = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-primary-color text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]"
+              className="w-full bg-primary-color text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-lg hover:bg-[#557deb]"
             >
               Submit
             </button>

@@ -1,35 +1,47 @@
 interface User {
-	name: string;
-	email: string;
+  id: string;
+  name: string;
+  message?: string;
+}
+
+interface GroupDetails {
+  id: string;
+  groupNo: number;
+}
+
+interface ProblemStatementDetails {
+  id: string;
+  statement: string;
+}
+
+export interface GroupInviteNotification {
+  type: "GROUP_INVITE";
+  createdAt: string;
+  groupId: string;
+  id: string;
+  status: "accepted" | "rejected";
+  user: User;
+}
+
+export interface ProjectRequestNotification {
+  type: "PROJECT_REQUEST";
+  createdAt: string;
+  groupDetails: GroupDetails;
+  id: string;
+  message_by_sender: string;
+  problemStatementDetails: ProblemStatementDetails;
+  status: "accepted" | "rejected";
+  user: User;
+}
+
+export interface notificationType{
+	type: "GROUP_INVITE" | "PROJECT_REQUEST";
+	createdAt: string;
+	groupId?: string;
+	groupDetails?: GroupDetails;
 	id: string;
+	message_by_sender?: string;
+	problemStatementDetails?: ProblemStatementDetails;
+	status: "accepted" | "rejected";
+	user: User;
 }
-
-interface ProblemStatement {
-	statement: string;
-	id: string;
-}
-
-export interface NotificationCardProps {
-	notification: {
-		notificationType: "send" | "receive",
-		reqType: "group" | "project",
-		reqTo: string,
-		reqBy : string,
-		reqStatus: "accept" | "reject" | "pending",
-		msg: string,
-		time: "",
-		problemStatement: ProblemStatement,
-	  };
-}
-
-// export interface NotificationCardProps {
-// 	notification: {
-// 		_id: string;
-// 		message_by_from: string;
-// 		message_by_to: string;
-// 		status: string;
-// 		fromUser: User;
-// 		toUser: User;
-// 		problemStatement: ProblemStatement;
-// 	};
-// }
