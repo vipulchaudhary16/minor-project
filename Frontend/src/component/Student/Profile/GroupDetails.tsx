@@ -19,7 +19,7 @@ export const GroupDetails : React.FC<Props> = ({user}) => {
           </h3>
           <div>
             <button
-              className="bg-primary-color text-white text-[1.1rem] font-semibold py-[.8rem] px-[1.4rem] rounded-md hover:bg-[#557deb]"
+              className="bg-primary-color text-white text-[1.1rem] font-semibold py-[.8rem] px-[1.4rem] rounded-lg hover:bg-[#557deb]"
               onClick={() => setIsPopUpOpen(true)}
             >
               Create Group
@@ -38,7 +38,7 @@ export const GroupDetails : React.FC<Props> = ({user}) => {
             </div>
           ) : (
             <>
-              <GroupTable groupInformation={user.group[0]} />
+              <GroupTable groupInformation={user.group} />
             </>
           )}
         </div>

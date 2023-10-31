@@ -24,7 +24,7 @@ export const Users = () => {
       <div className="max-h-screen p-[6rem] overflow-auto">
         <PageHeading title="Users" />
           <button
-            className="bg-primary-color text-white py-[.5rem] px-[1.5rem] rounded-md text-[1.5rem] font-semibold"
+            className="bg-primary-color text-white py-[.5rem] px-[1.5rem] rounded-lg text-[1.5rem] font-semibold"
             onClick={() => setIsOpen(true)}
           >
             Add Users

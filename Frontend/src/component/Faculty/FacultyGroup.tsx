@@ -4,7 +4,7 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import { Loader } from '../Utils/Loader';
 import PopUp from '../Utils/PopUp';
-import { GroupDetailsCard } from '../cards/GroupDetailsCard';
+import { GroupDetailsCard } from '../Cards/GroupDetailsCard';
 
 const columns = ['Sr.', 'Group Name', , 'Project', 'Action'];
 

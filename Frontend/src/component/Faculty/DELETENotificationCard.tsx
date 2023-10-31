@@ -47,7 +47,7 @@ const NotificationCardFaculty: React.FC<NotificationCardProps> = ({
 						</label>
 						<textarea
 							placeholder='Enter your message to be sent to the faculty'
-							className='w-full px-[1.2rem] py-[.8rem] border rounded-md focus:outline-none focus:ring-1 focus:ring-[#557deb] text-[1.2rem]'
+							className='w-full px-[1.2rem] py-[.8rem] border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#557deb] text-[1.2rem]'
 							value={message}
 							onChange={(e) => setMessage(e.target.value)}
 							cols={40}
@@ -58,7 +58,7 @@ const NotificationCardFaculty: React.FC<NotificationCardProps> = ({
 					<div className='text-center'>
 						<button
 							type='submit'
-							className='w-full bg-[#5d87ff] text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-md hover:bg-[#557deb]'
+							className='w-full bg-[#5d87ff] text-white text-[1.3rem] font-semibold py-[1rem] px-[1.6rem] rounded-lg hover:bg-[#557deb]'
 						>
 							Send
 						</button>

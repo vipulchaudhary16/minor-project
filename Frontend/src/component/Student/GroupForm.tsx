@@ -84,7 +84,7 @@ const GroupForm = () => {
 					{members.map((member, index) => (
 						<li
 							key={index}
-							className='flex justify-between items-center gap-[3rem] bg-gray-100 p-[1rem] rounded-md'
+							className='flex justify-between items-center gap-[3rem] bg-gray-100 p-[1rem] rounded-lg'
 						>
 							<div className='flex gap-[.5rem]'>
 								<p className='text-[1.25rem] font-semibold'>
@@ -113,7 +113,7 @@ const GroupForm = () => {
 							id='rollNumber'
 							value={selectedMember}
 							onChange={(e) => setSelectedMember(e.target.value)}
-							className='p-2 transition duration-150 ease-in-out border border-gray-300 rounded-md shadow-md focus:border-blue-500 focus:ring focus:ring-blue-200'
+							className='p-2 transition duration-150 ease-in-out border border-gray-300 rounded-lg shadow-md focus:border-blue-500 focus:ring focus:ring-blue-200'
 						>
 							<option value=''>Select Roll No</option>
 							{unGroupedUsers.map((member) => (
@@ -125,7 +125,7 @@ const GroupForm = () => {
 						<button
 							type='button'
 							onClick={() => addMember(selectedMember)}
-							className='border border-primary-color text-primary-color text-[1.2rem] font-semibold py-[.5rem] px-[1.5rem] rounded-md hover:bg-[#557deb] hover:text-[#fff]'
+							className='border border-primary-color text-primary-color text-[1.2rem] font-semibold py-[.5rem] px-[1.5rem] rounded-lg hover:bg-[#557deb] hover:text-[#fff]'
 						>
 							Add
 						</button>
@@ -133,7 +133,7 @@ const GroupForm = () => {
 					<div className='mt-[1.5rem]'>
 						<button
 							type='submit'
-							className='w-full bg-primary-color text-white text-[1.3rem] font-semibold py-[.8rem] rounded-md hover:bg-[#557deb]'
+							className='w-full bg-primary-color text-white text-[1.3rem] font-semibold py-[.8rem] rounded-lg hover:bg-[#557deb]'
 						>
 							Create Group
 						</button>

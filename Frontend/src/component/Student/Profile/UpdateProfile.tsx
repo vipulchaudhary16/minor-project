@@ -51,7 +51,7 @@ export const UpdateProfileForm: React.FC = () => {
             name="choice"
             value={choice}
             onChange={handleChoiceChange}
-            className="w-full px-4 py-2 border rounded-md"
+            className="w-full px-4 py-2 border rounded-lg"
           >
             <option value="">Select an option</option>
             <option value="IND">Industrial training</option>
@@ -61,7 +61,7 @@ export const UpdateProfileForm: React.FC = () => {
         <div>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           >
             Submit
           </button>

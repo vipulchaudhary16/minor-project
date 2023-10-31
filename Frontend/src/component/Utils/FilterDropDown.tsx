@@ -27,7 +27,7 @@ const FilterDropDown = ({ items, onChange }: Props) => {
   // return (
   //     <select
   //       onChange={(e) => onChange(e)}
-  //       className="p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+  //       className="p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
   //     >
   //       <option value="">Select faculty </option>
   //       {facultyList.map((faculty: any) => (

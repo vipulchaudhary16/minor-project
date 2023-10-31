@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setUser } from "../store/user/user.slice";
 import { userSelector } from "../store/user/user.selector";
 import { getNavlinks } from "../utils/navigation";
@@ -10,15 +10,17 @@ interface NavProps {
 }
 
 const SideNav: React.FC<NavProps> = ({ role }) => {
+  const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
 
   const user = useSelector(userSelector);
 
   const logOutUser = () => {
-    localStorage.clear();
+    // window.location.href = "/";
+    navigate('/');
     dispatch(setUser(null));
-    window.location.href = "/";
+    localStorage.clear();
   };
 
   return (
@@ -54,7 +56,7 @@ const SideNav: React.FC<NavProps> = ({ role }) => {
       <div>
         <button
           onClick={() => logOutUser()}
-          className="w-full border border-primary-color text-[1.2rem] text-primary-color font-semibold py-[1rem] rounded-md hover:bg-primary-color hover:text-white"
+          className="w-full border border-primary-color text-[1.2rem] text-primary-color font-semibold py-[1rem] rounded-lg hover:bg-primary-color hover:text-white"
         >
           Logout
         </button>
