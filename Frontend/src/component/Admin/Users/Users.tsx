@@ -1,9 +1,9 @@
 import { useState } from "react";
-import PageHeading from "../Utils/PageHeading";
+import PageHeading from "../../Utils/PageHeading";
 import { StudentSection } from "./StudentSection";
 import { FacultySection } from "./FacultySection";
-import PopUp from "../Utils/PopUp";
-import AddUsers from "../Forms/AddUsers";
+import PopUp from "../../Utils/PopUp";
+import AddUsers from "../../Forms/AddUsers";
 const tabs = [
   {
     label: "Students",
@@ -23,12 +23,12 @@ export const Users = () => {
       </PopUp>
       <div className="max-h-screen p-[6rem] overflow-auto">
         <PageHeading title="Users" />
-          <button
-            className="bg-primary-color text-white py-[.5rem] px-[1.5rem] rounded-lg text-[1.5rem] font-semibold"
-            onClick={() => setIsOpen(true)}
-          >
-            Add Users
-          </button>
+        <button
+          className="bg-primary-color text-white py-[.5rem] px-[1.5rem] rounded-lg text-[1.5rem] font-semibold"
+          onClick={() => setIsOpen(true)}
+        >
+          Add Users
+        </button>
         <div className="my-[1rem]">
           <div className="border-b border-gray-200">
             <nav className="flex gap-[1.5rem]">

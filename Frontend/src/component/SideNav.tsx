@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setUser } from "../store/user/user.slice";
 import { userSelector } from "../store/user/user.selector";
-import { getNavlinks } from "../utils/navigation";
-import { role_to_string } from "../utils/const_mappers";
+import { getNavlinks } from "../utilFunctions/navigation";
+import { role_to_string } from "../utilFunctions/const_mappers";
 
 interface NavProps {
   role: number;

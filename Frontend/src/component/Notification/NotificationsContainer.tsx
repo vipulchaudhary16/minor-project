@@ -102,6 +102,7 @@ export const NotificationsContainer = () => {
             {sentRequests?.length !== 0 ? (
               sentRequests?.map((request, index) => (
                 <RequestCard
+                  id={request.id}
                   key={index}
                   requestType={request.type}
                   time={request.createdAt}
@@ -123,6 +124,7 @@ export const NotificationsContainer = () => {
             {receivedRequests?.length !== 0 ? (
               receivedRequests?.map((request, index) => (
                 <RequestCard
+                  id={request.id}
                   key={index}
                   requestType={request.type}
                   time={request.createdAt}

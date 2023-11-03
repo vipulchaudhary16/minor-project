@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userSelector } from "../store/user/user.selector";
-import ErrorPage from "../component/Utils/Unauthorised";
+import ErrorPage from "../component/Utils/ErrorPage";
 
 export const IsLoggedIN: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);

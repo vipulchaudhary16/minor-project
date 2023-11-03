@@ -1,10 +1,10 @@
 import React, { FormEvent } from "react";
-import PopUp from "../Utils/PopUp";
+import PopUp from "../../Utils/PopUp";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { userSelector } from "../../store/user/user.selector";
-import { Project } from "../../types/index.types";
+import { userSelector } from "../../../store/user/user.selector";
+import { Project } from "../../../types/index.types";
 
 interface ProjectRowProps {
   project: Project;

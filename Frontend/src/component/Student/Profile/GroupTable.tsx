@@ -1,4 +1,4 @@
-import { Group } from "../../types/index.types";
+import { Group } from "../../../types/index.types";
 
 interface GroupTableProps {
   groupInformation: Group;
@@ -37,23 +37,24 @@ export const GroupTable: React.FC<GroupTableProps> = ({ groupInformation }) => {
           </tr>
         </thead>
         <tbody className="text-[#5A6A85]">
-          {groupInformation && groupInformation.groupMembersData.map((memberData, index) => (
-            <tr>
-              <td className="p-[1.4rem] whitespace-no-wrap">
-                <div className="text-[1.3rem] font-medium">{index + 1}</div>
-              </td>
-              <td className="p-[1.4rem] whitespace-no-wrap">
-                <div className="text-[1.3rem] font-medium">
-                  {memberData.name}
-                </div>
-              </td>
-              <td className="p-[1.4rem] whitespace-no-wrap">
-                <div className="text-[1.3rem] font-medium">
-                  {memberData.rollNo}
-                </div>
-              </td>
-            </tr>
-          ))}
+          {groupInformation &&
+            groupInformation.groupMembersData.map((memberData, index) => (
+              <tr>
+                <td className="p-[1.4rem] whitespace-no-wrap">
+                  <div className="text-[1.3rem] font-medium">{index + 1}</div>
+                </td>
+                <td className="p-[1.4rem] whitespace-no-wrap">
+                  <div className="text-[1.3rem] font-medium">
+                    {memberData.name}
+                  </div>
+                </td>
+                <td className="p-[1.4rem] whitespace-no-wrap">
+                  <div className="text-[1.3rem] font-medium">
+                    {memberData.rollNo}
+                  </div>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

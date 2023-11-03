@@ -1,11 +1,9 @@
-import React from "react";
+type PropsType = {
+  columns: string[];
+  children: React.ReactNode;
+};
 
-interface TableProps {
-  columns: Array<string>;
-  rows: Array<Array<string>>;
-}
-
-export const Table: React.FC<TableProps> = ({ columns, rows }) => {
+export const Table = ({ columns, children }: PropsType) => {
   return (
     <div className="w-full">
       <table className="min-w-full divide-y divide-gray-200">
@@ -21,17 +19,7 @@ export const Table: React.FC<TableProps> = ({ columns, rows }) => {
             ))}
           </tr>
         </thead>
-        <tbody className="text-[#5A6A85]">
-          {rows.map((rowData, index) => (
-            <tr key={index}>
-              {rowData.map((data, index) => (
-                <td className="p-[1.4rem] whitespace-no-wrap">
-                  <div className="text-[1.3rem] font-medium">{data}</div>
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
+        <tbody className="text-[#5A6A85]">{children}</tbody>
       </table>
     </div>
   );

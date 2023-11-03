@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { userSelector } from '../../store/user/user.selector';
-import PopUp from '../Utils/PopUp';
-import AddProblemStatementForm from './AddProblemStatement';
-import ProjectTable from '../ProjectTable';
-import { Loader } from '../Utils/Loader';
+import { userSelector } from '../../../store/user/user.selector';
+import PopUp from '../../Utils/PopUp';
+import AddProblemStatementForm from '../../Forms/AddProblemStatement';
+import ProjectTable from '../../ProjectTable';
+import { Loader } from '../../Utils/Loader';
 
 export const ProjectSectionFaculty = () => {
 	const [projectList, setProjectList] = useState([]);

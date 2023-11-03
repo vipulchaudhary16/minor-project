@@ -1,6 +1,6 @@
 import React from 'react';
 import { GroupData } from '../../types/group.types';
-import { convertTimeIntoIST } from '../../utils/functions';
+import { convertTimeIntoIST } from '../../utilFunctions/functions';
 
 interface Props {
 	group: GroupData;
