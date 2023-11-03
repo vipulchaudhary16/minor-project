@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userSelector } from "../store/user/user.selector";
 import DefaultLayout from "../layout/DefaultLayout";
-import ErrorPage from "../component/Unauthorised";
+import ErrorPage from "../component/Utils/ErrorPage";
 
 interface RoleBaseRoutingProps {
   role: number;

@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { userSelector } from "../store/user/user.selector";
-import { ProjectRowStudent } from "./Student/ProjectRow";
-import { ProjectRowFaculty } from "./Faculty/ProjectRow";
+import { ProjectRowStudent } from "./Student/Project/ProjectRow";
+import { ProjectRowFaculty } from "./Faculty/Projects/ProjectRow";
 import { Project } from "../types/index.types";
 
 interface Props {

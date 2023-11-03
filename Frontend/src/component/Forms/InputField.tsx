@@ -1,19 +1,21 @@
 interface InputFieldProps {
   label: string;
-  type: string;
+  type?: string;
   name: string;
   value: string;
   required?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isDisabled?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
   label,
-  type,
+  type = 'text',
   name,
   value,
   required = true,
   onChange,
+  isDisabled = false,
 }) => {
   return (
     <div className="mb-[1.6rem]">
@@ -31,6 +33,7 @@ const InputField: React.FC<InputFieldProps> = ({
         value={value}
         onChange={onChange}
         required={required}
+        disabled={isDisabled}
       />
     </div>
   );

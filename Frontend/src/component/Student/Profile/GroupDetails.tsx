@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PopUp from "../../Utils/PopUp";
-import GroupForm from "../GroupForm";
-import { GroupTable } from "../GroupTable";
+import GroupForm from "../../Forms/GroupForm";
+import { GroupTable } from "./GroupTable";
 
 type Props = {
     user: any;

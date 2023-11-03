@@ -11,12 +11,13 @@ import { userSelector } from "./store/user/user.selector";
 import axios from "axios";
 import Profile from "./component/Profile";
 import { setUser } from "./store/user/user.slice";
-import { ProjectSectionFaculty } from "./component/Faculty/ProjectSection";
-import { ProjectSectionStudent } from "./component/Student/ProjectSection";
+import { ProjectSectionFaculty } from "./component/Faculty/Projects/ProjectSection";
+import { ProjectSectionStudent } from "./component/Student/Project/ProjectSection";
 import { NotificationsContainer } from "./component/Notification/NotificationsContainer";
-import { UpdateProfileForm } from "./component/Student/Profile/UpdateProfile";
+import { UpdateProfileForm } from "./component/Forms/UpdateProfile";
 import { IsLoggedIN } from "./routes/IsLoggedIn";
-import { Users } from "./component/Admin/Users";
+import { Users } from "./component/Admin/Users/Users";
+import { IndustryInternshipSection } from "./component/Admin/Internship Requests/IndustryInternshipSection";
 
 export const App: React.FC = () => {
   const user = useSelector(userSelector);
@@ -53,6 +54,10 @@ export const App: React.FC = () => {
           <Route element={<RoleBaseRouting role={0} />}>
             <Route path="/admin" element={<Profile />} />
             <Route path="/admin/users" element={<Users />} />
+            <Route
+              path="/admin/industry-requests"
+              element={<IndustryInternshipSection />}
+            />
           </Route>
           <Route element={<RoleBaseRouting role={1} />}>
             <Route

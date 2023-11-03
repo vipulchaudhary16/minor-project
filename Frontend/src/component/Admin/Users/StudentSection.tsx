@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Table } from "./Table";
+import { Table } from "../../Table/Table";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { TD } from "../Table/TD";
-import { Loader } from "../Utils/Loader";
+import { TD } from "../../Table/TD";
+import { Loader } from "../../Utils/Loader";
 
 export type User = {
   _id: string;

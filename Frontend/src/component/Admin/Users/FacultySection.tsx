@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Table } from "./Table";
-import { TD } from "../Table/TD";
-import { Loader } from "../Utils/Loader";
+import { Table } from "../../Table/Table";
+import { TD } from "../../Table/TD";
+import { Loader } from "../../Utils/Loader";
 
 export type Faculty = {
   _id: string;
