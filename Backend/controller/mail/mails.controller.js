@@ -22,14 +22,18 @@ const sendOTP = async (email, generatedOTP) => {
 	return await transporter.sendMail(mailOptions);
 };
 
-const sendCredentials = async (email, name, password) => {
+const sendCredentials = async (name, email, password) => {
+	let emailTemplate = fs.readFileSync("./views/mails/credentials.html", "utf-8");
+	emailTemplate = emailTemplate.replace("{{userName}}", name);
+	emailTemplate = emailTemplate.replace("{{email}}", email);
+	emailTemplate = emailTemplate.replace("{{password}}", password);
+	emailTemplate = emailTemplate.replace("{{destinationUrl}}", process.env.FRONTEND_URL)
+
 	const mailOptions = {
 		from: process.env.MAIL,
 		to: email,
 		subject: 'Credentials for Comprehensive Project Portal',
-		html: `<p>Hello ${name},</p><p>Your credentials for Comprehensive Project Portal are as follows:</p>
-		<p><strong>Email: </strong>${email}</p>
-		<p><strong>Password: </strong>${password}</p>`,
+		html: emailTemplate,
 	};
 	return await transporter.sendMail(mailOptions);
 };

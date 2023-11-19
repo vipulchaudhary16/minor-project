@@ -30,9 +30,34 @@ const getProjectObj = (type, type2 = 'sent') => {
                     id: '$user._id',
                     name: '$user.name',
                 },
+                groupDetails: {
+                    id: '$group._id',
+                    groupNo: '$group.groupNumber',
+                },
                 type: 1,
                 status: 1,
-                groupId: 1,
+                createdAt: 1,
+                _id: 0,
+            }
+
+        case 'customProject':
+            return {
+                id: '$_id',
+                user: {
+                    id: '$user._id',
+                    name: '$user.name',
+                    message: type2 == 'sent' ? '$to.message' : '$from.message',
+                },
+                groupDetails: {
+                    id: '$group._id',
+                    groupNo: '$group.groupNumber',
+                },
+                problemStatementDetails: {
+                    statement: '$projectDescription',
+                    domain: '$projectDomain'
+                },
+                type: 1,
+                status: 1,
                 createdAt: 1,
                 _id: 0,
             }

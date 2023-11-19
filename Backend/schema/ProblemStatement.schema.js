@@ -6,6 +6,11 @@ const problemStatementSchema = new mongoose.Schema({
 		ref: 'User', // Reference to the User model for Faculty
 		required: true,
 	},
+	//TODO: add this field on frontend and other places where problem statement is used
+	title: {
+		type: String,
+		required: true,
+	},
 	statement: {
 		type: String,
 		required: true,
