@@ -1,6 +1,5 @@
 const OTP = require('../../schema/OTP.schema');
 const User = require('../../schema/User.schema');
-const { sendOTP, sendCredentials } = require('../mail/mails.controller');
 const jwt = require('jsonwebtoken');
 const { generateRandomPassword } = require('../utils/function.controller');
 const { getUserGroup } = require('./user.controller');
@@ -32,9 +31,6 @@ const registerUsers = async (req, res) => {
 				email,
 				status: 'Registered successfully'
 			})
-			await sendCredentials(email, name, newUser.password).then(() => {
-				console.log(`Credentials sent to ${email}`);
-			});
 		}
 		res.status(200).json(response);
 	} catch (error) {
@@ -53,11 +49,14 @@ const logIn = async (req, res) => {
 		if (user.password !== password) {
 			return res.status(400).send('Invalid password');
 		}
+		const group = await getUserGroup(user._id);
+
 		const payload = {
 			user: {
 				id: user._id,
 				role: user.role,
 				choice: user.choice,
+				groupId: group._id ?? null,
 			},
 		};
 		const token = jwt.sign(payload, SECRET);
@@ -71,7 +70,7 @@ const logIn = async (req, res) => {
 				rollNo: user.rollNo,
 				role: user.role,
 				choice: user.choice,
-				group: await getUserGroup(user._id),
+				group,
 			},
 		});
 	} catch (error) {
@@ -128,15 +127,6 @@ const register = async (req, res) => {
 
 		// create new user if user doesn't exist
 		await newUser.save();
-		const generatedOTP = generateOTP();
-
-		await sendOTP(email, generatedOTP);
-		const otpDoc = new OTP({
-			otp: generatedOTP,
-		});
-
-		await otpDoc.save();
-		res.status(200).json({ txnId: otpDoc._id });
 	} catch (error) {
 		console.log(error);
 		res.status(500).send(error.message);

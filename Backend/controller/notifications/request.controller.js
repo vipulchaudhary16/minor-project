@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const ProjectRequestSchema = require('../../schema/Request/ProjectRequest.schema');
 const GroupSchema = require('../../schema/Group.schema');
 const { getProjectObj, getUserLookUp } = require('../utils/pipeline.utils');
+const CustomProjectRequestSchema = require('../../schema/Request/CustomProjectRequest.schema');
 
 const projectRequestLookups = [
 	{
@@ -46,6 +47,20 @@ const getRequests = async (req, res) => {
 		if (type === 'sent') {
 			const groupRequestPipeline = [
 				{ $match: { 'from.id': userId } },
+				{
+					$lookup: {
+						from: 'groups',
+						localField: 'groupId',
+						foreignField: '_id',
+						as: 'group',
+					},
+				},
+				{
+					$unwind: {
+						path: '$group',
+						preserveNullAndEmptyArrays: true,
+					},
+				},
 				...getUserLookUp('to.id'),
 				{
 					$project: getProjectObj('group', 'sent')
@@ -56,6 +71,7 @@ const getRequests = async (req, res) => {
 			);
 
 			let projectRequests = [];
+			let customProjectRequests = [];
 			if (group) {
 				const projectPipeline = [
 					{
@@ -70,14 +86,70 @@ const getRequests = async (req, res) => {
 					}
 				];
 				projectRequests = await ProjectRequestSchema.aggregate(projectPipeline);
+				const customProjectPipeline = [
+					{
+						$match: {
+							from: group._id,
+						},
+					},
+					{
+						$lookup: {
+							from: 'users',
+							localField: 'to',
+							foreignField: '_id',
+							as: 'user',
+						},
+					},
+					{
+						$unwind: {
+							path: '$user',
+							preserveNullAndEmptyArrays: true,
+						},
+					},
+					{
+						$lookup: {
+							from: 'groups',
+							localField: 'from',
+							foreignField: '_id',
+							as: 'group',
+						},
+					},
+					{
+						$unwind: {
+							path: '$group',
+							preserveNullAndEmptyArrays: true,
+						},
+					},
+					{
+						$project: getProjectObj('customProject')
+					}
+				]
+				customProjectRequests = await CustomProjectRequestSchema.aggregate(customProjectPipeline);
 			}
+
+
 			return res.json([
 				...groupRequests,
 				...projectRequests,
+				...customProjectRequests
 			]);
 		} else if (type === 'received') {
 			const groupPipeline = [
 				{ $match: { 'to.id': userId } },
+				{
+					$lookup: {
+						from: 'groups',
+						localField: 'groupId',
+						foreignField: '_id',
+						as: 'group',
+					},
+				},
+				{
+					$unwind: {
+						path: '$group',
+						preserveNullAndEmptyArrays: true,
+					},
+				},
 				...getUserLookUp('from.id'),
 				{
 					$project: getProjectObj('group', 'received')
@@ -101,9 +173,35 @@ const getRequests = async (req, res) => {
 			const projectRequests = await ProjectRequestSchema.aggregate(
 				projectPipeline
 			);
+			const customProjectPipeline = [
+				{
+					$match: {
+						to: userId,
+					},
+				},
+				{
+					$lookup: {
+						from: 'groups',
+						localField: 'from',
+						foreignField: '_id',
+						as: 'group',
+					},
+				},
+				{
+					$unwind: {
+						path: '$group',
+						preserveNullAndEmptyArrays: true,
+					},
+				},
+				{
+					$project: getProjectObj('customProject')
+				}
+			]
+			let customProjectRequests = await CustomProjectRequestSchema.aggregate(customProjectPipeline);
 			return res.json([
 				...groupRequests,
 				...projectRequests,
+				...customProjectRequests
 			]);
 		}
 	} catch (error) {

@@ -4,7 +4,9 @@ const cors = require("cors");
 const logger = require("morgan");
 const dbConfig = require("./config/db.config");
 require("./config/cloudinary.config");
+require("./controller/automation/automation")
 const fileUpload = require("express-fileupload");
+const { sendCredentials } = require("./controller/mail/mails.controller");
 const app = express();
 
 app.use(cors());
@@ -20,7 +22,13 @@ app.use(logger(predefinedFormat));
 dbConfig.connect();
 
 app.get("/api", async (req, res) => {
-	res.send("API Ok!");
+	await sendCredentials(
+		"Vipul Rana",
+		"vipulr6111@gmail.com",
+		"123456789"
+	).then((data) => {
+		return res.json(data);
+	});
 });
 
 app.use("/api/user", require("./routes/user.route"));

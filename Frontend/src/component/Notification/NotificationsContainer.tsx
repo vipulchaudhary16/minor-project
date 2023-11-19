@@ -18,6 +18,8 @@ export const NotificationsContainer = () => {
     useState<Array<notificationType>>();
   const user = useSelector(userSelector);
 
+  console.log(sentRequests);
+
   useEffect(() => {
     getSentRequests();
     getReceivedRequests();
@@ -106,11 +108,13 @@ export const NotificationsContainer = () => {
                   key={index}
                   requestType={request.type}
                   time={request.createdAt}
-                  requestedBy={"You"}
-                  requestedTo={request.user.name}
-                  message={request.message_by_sender}
                   status={request.status}
-                  problemStatement={request.problemStatementDetails?.statement}
+                  request={request}
+                  category="sent"
+                  // requestedBy={"You"}
+                  // requestedTo={request.user?.name ?? ""} // Use optional chaining and provide a default value
+                  // message={request.message_by_sender}
+                  // problemStatement={request.problemStatementDetails?.statement}
                 ></RequestCard>
               ))
             ) : (
@@ -128,11 +132,17 @@ export const NotificationsContainer = () => {
                   key={index}
                   requestType={request.type}
                   time={request.createdAt}
-                  requestedBy={request.user.name}
-                  requestedTo={"You"}
-                  message={request.message_by_sender}
                   status={request.status}
-                  problemStatement={request.problemStatementDetails?.statement}
+                  request={request}
+                  category="received"
+                  // requestedBy={
+                  //   request.user?.name ??
+                  //   "Group No: " + request.groupDetails?.groupNo?.toString() ??
+                  //   ""
+                  // }
+                  // requestedTo={"You"}
+                  // message={request.message_by_sender}
+                  // problemStatement={request.problemStatementDetails?.statement}
                 ></RequestCard>
               ))
             ) : (

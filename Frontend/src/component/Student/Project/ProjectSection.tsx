@@ -6,6 +6,8 @@ import { Loader } from "../../Utils/Loader";
 import PageHeading from "../../Utils/PageHeading";
 import SearchBar from "../../Utils/SearchBar";
 import FilterDropDown from "../../Utils/FilterDropDown";
+import PopUp from "../../Utils/PopUp";
+import { CustomProjectForm } from "../../Forms/CustomProjectFrom";
 
 export const ProjectSectionStudent = () => {
   const [projectList, setProjectList] = useState([]);
@@ -20,6 +22,7 @@ export const ProjectSectionStudent = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [facultyFilter, setFacultyFilter] = useState("");
   const [facultyList, setFacultyList] = useState([]);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   useEffect(() => {
     fetchFacultyList();
@@ -55,7 +58,7 @@ export const ProjectSectionStudent = () => {
     }
   };
 
-  const handleFacultyFilter = async (value : string) => {
+  const handleFacultyFilter = async (value: string) => {
     // const value = e.target.value;
     // alert(value);
     setFacultyFilter(value);
@@ -63,6 +66,13 @@ export const ProjectSectionStudent = () => {
 
   return (
     <>
+      <PopUp
+        isOpen={isFormOpen}
+        setIsOpen={setIsFormOpen}
+        heading="Request Your Project"
+      >
+        <CustomProjectForm />
+      </PopUp>
       <div className="max-h-screen p-[3rem] overflow-auto">
         <PageHeading title="Project Lists" />
         <div className="flex flex-row-reverse items-center gap-4 pb-4">
@@ -73,6 +83,12 @@ export const ProjectSectionStudent = () => {
             onSearch={handleSearch}
             placeholder="Search by problem statement and domain"
           ></SearchBar>
+          <button
+            className="bg-primary-color text-white px-[1.5rem] py-[0.5rem] rounded-lg"
+            onClick={() => setIsFormOpen(true)}
+          >
+            Request Your Project
+          </button>
         </div>
 
         <div className="card p-[2.5rem] rounded-3xl">

@@ -1,32 +1,47 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 import PopUp from "../Utils/PopUp";
+import { notificationType } from "../../types/notification.types";
 
 interface RequestCardProps {
   id: string;
-  requestType: string;
+  requestType: "GROUP_INVITE" | "PROJECT_REQUEST" | "CUSTOM_PROJECT_REQUEST";
   time: string;
-  requestedTo: string;
-  requestedBy: string;
-  message?: string;
   status: "accepted" | "rejected" | "pending";
-  problemStatement?: string;
+  request: notificationType;
+  category: "sent" | "received";
 }
 
 const RequestCard: React.FC<RequestCardProps> = ({
   requestType,
   id,
   time,
-  requestedTo,
-  requestedBy,
-  message,
   status,
-  problemStatement,
+  category,
+  request,
 }) => {
   const [updateMessage, setUpdateMessage] = React.useState<string>("");
   const [updateStatus, setUpdateStatus] = React.useState<string>("");
   const [isPopUpOpen, setIsPopUpOpen] = React.useState<boolean>(false);
+  const [userDetails, setUserDetails] = React.useState<any>({
+    sender: "",
+    receiver: "",
+  });
+
+  useEffect(() => {
+    if (category == "sent") {
+      setUserDetails({
+        sender: "You",
+        receiver: request.user?.name,
+      });
+    } else if (category == "received") {
+      setUserDetails({
+        sender: request.user?.name,
+        receiver: "You",
+      });
+    }
+  }, [request]);
 
   const handleAcceptRequest = async (type: string) => {
     switch (type) {
@@ -47,6 +62,12 @@ const RequestCard: React.FC<RequestCardProps> = ({
       case "PROJECT_REQUEST": {
         setUpdateStatus("accepted");
         setIsPopUpOpen(true);
+        break;
+      }
+      case "CUSTOM_PROJECT_REQUEST": {
+        setUpdateStatus("accepted");
+        setIsPopUpOpen(true);
+        break;
       }
     }
   };
@@ -70,6 +91,12 @@ const RequestCard: React.FC<RequestCardProps> = ({
       case "PROJECT_REQUEST": {
         setUpdateStatus("rejected");
         setIsPopUpOpen(true);
+        break;
+      }
+      case "CUSTOM_PROJECT_REQUEST": {
+        setUpdateStatus("rejected");
+        setIsPopUpOpen(true);
+        break;
       }
     }
   };
@@ -79,12 +106,22 @@ const RequestCard: React.FC<RequestCardProps> = ({
     const body = {
       message: updateMessage,
       status: updateStatus,
+      requestId: "",
     };
     try {
-      await axios.put(
-        `http://localhost:8080/api/project-request/update/${id}`,
-        body
-      );
+      if (requestType === "PROJECT_REQUEST") {
+        await axios.put(
+          `http://localhost:8080/api/project-request/update/${id}`,
+          body
+        );
+      } else if (requestType === "CUSTOM_PROJECT_REQUEST") {
+        body.requestId = id;
+        await axios.put(
+          `http://localhost:8080/api/problemStatement/custom/update`,
+          body
+        );
+      }
+
       // onSuccess();
       return toast.success("Update sent successfully");
     } catch (error) {
@@ -139,40 +176,20 @@ const RequestCard: React.FC<RequestCardProps> = ({
             <div className="text-[1.6rem] font-semibold">{requestType}</div>
             <div className="text-[1.6rem] font-semibold">{time}</div>
           </div>
-          <div className="text-[1.4rem]">
-            <span className="text-[1.4rem] font-semibold">Requested To:</span>{" "}
-            {requestedTo}
-          </div>
-          <div className="text-[1.4rem]">
-            <span className="text-[1.4rem] font-semibold">Requested By:</span>{" "}
-            {requestedBy}
-          </div>
-          {message ? (
-            <div className="text-[1.4rem]">
-              <span className="text-[1.4rem] font-semibold">Message:</span>{" "}
-              {message}
-            </div>
-          ) : (
-            <></>
+          {requestType === "GROUP_INVITE" && (
+            <p>
+              {`${userDetails.sender} sent ${userDetails.receiver} a group invite for joining the group number ${request.groupDetails?.groupNo}`}
+            </p>
           )}
-          {status === "pending" ? (
-            <div className="text-[1.4rem]">
-              <span className="text-[1.4rem] font-semibold">Status:</span>{" "}
-              {status}
-            </div>
-          ) : (
-            <></>
+          {requestType === "PROJECT_REQUEST" && (
+            <p>
+              {`${userDetails.sender} sent ${userDetails.receiver} a project request for the project titled ${request.problemStatementDetails?.title} in the domain ${request.problemStatementDetails?.domain} with the problem statement ${request.problemStatementDetails?.statement}`}
+            </p>
           )}
-          {requestType === "PROJECT_REQUEST" && problemStatement && (
-            <div className="text-[1.4rem] font-semibold">
-              Problem Statement:{" "}
-              <span className="text-[1.4rem] font-normal">
-                {/* Display the problem statement, adding an ellipsis if it's longer than 60 characters */}
-                {problemStatement.length > 60
-                  ? `${problemStatement.slice(0, 60)}...`
-                  : problemStatement}
-              </span>
-            </div>
+          {requestType === "CUSTOM_PROJECT_REQUEST" && (
+            <p>
+              {`${userDetails.sender} sent ${userDetails.receiver} a custom project request for the project titled ${request.problemStatementDetails?.title} in the domain ${request.problemStatementDetails?.domain} with the problem statement ${request.problemStatementDetails?.statement}`}
+            </p>
           )}
         </div>
         <>

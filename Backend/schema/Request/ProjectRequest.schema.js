@@ -21,7 +21,7 @@ const ProjectRequest = new mongoose.Schema({
 		},
 	},
 
-	type:{
+	type: {
 		type: String,
 		default: "PROJECT_REQUEST"
 	},
@@ -31,15 +31,17 @@ const ProjectRequest = new mongoose.Schema({
 		enum: ['pending', 'accepted', 'rejected'],
 		default: 'pending',
 	},
-	
+
 	groupId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Group',
 	},
+
 	problemStatementId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'ProblemStatement',
 	},
+
 	createdAt: {
 		type: Date,
 		default: Date.now,
