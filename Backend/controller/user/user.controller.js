@@ -120,6 +120,7 @@ const getUsers = async (req, res) => {
 				_id: 1,
 				facultyId: 1,
 				statement: 1,
+				title: 1,
 				selectedBy: 1,
 			});
 			// Get all the groups as we need to map the selectedBy field of problem statement
@@ -146,6 +147,7 @@ const getUsers = async (req, res) => {
 					_id: problemStatement._id,
 					statement: problemStatement.statement,
 					selectedBy: groups[problemStatement.selectedBy],
+					title: problemStatement.title,
 				});
 			});
 			// Update the response

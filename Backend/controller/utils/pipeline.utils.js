@@ -16,6 +16,7 @@ const getProjectObj = (type, type2 = 'sent') => {
                 problemStatementDetails: {
                     id: '$problemStatement._id',
                     statement: '$problemStatement.statement',
+                    title: '$problemStatement.title',
                 },
                 _id: 0,
                 status: 1,
@@ -54,7 +55,8 @@ const getProjectObj = (type, type2 = 'sent') => {
                 },
                 problemStatementDetails: {
                     statement: '$projectDescription',
-                    domain: '$projectDomain'
+                    domain: '$projectDomain',
+                    title: '$projectTitle',
                 },
                 type: 1,
                 status: 1,

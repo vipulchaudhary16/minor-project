@@ -18,6 +18,7 @@ export interface Group {
 
 export interface Project {
   _id: string;
+  title: string;
   statement: string;
   domain: string;
   faculty?: {

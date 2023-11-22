@@ -12,6 +12,7 @@ import { CustomProjectForm } from "../../Forms/CustomProjectFrom";
 export const ProjectSectionStudent = () => {
   const [projectList, setProjectList] = useState([]);
   const columns = [
+    "Title",
     "Problem Statements",
     "Domain",
     "Faculty Name",
