@@ -11,6 +11,9 @@ export const ProjectRowFaculty: React.FC<ProjectRowProps> = ({ project }) => {
     <>
       <tr key={project._id}>
         <td className="p-[1.4rem] whitespace-no-wrap">
+          <div className="text-[1.3rem] font-medium">{project.title}</div>
+        </td>
+        <td className="p-[1.4rem] whitespace-no-wrap">
           <div className="text-[1.3rem] font-medium">{project.statement}</div>
         </td>
         <td className="p-[1.4rem] whitespace-no-wrap">

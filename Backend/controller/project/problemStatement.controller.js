@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const addNewProblemStatement = async (req, res) => {
 	try {
-		const { statement, domain } = req.body;
+		const {title, statement, domain } = req.body;
 		const facultyId = req.user.id;
 		const existingProblemStatements = await ProblemStatement.find({
 			facultyId,
@@ -14,6 +14,7 @@ const addNewProblemStatement = async (req, res) => {
 			return res.status(401).send('You have already added limited problem statements.')
 		}
 		const newProblemStatement = new ProblemStatement({
+			title,
 			facultyId,
 			statement,
 			domain,
@@ -28,11 +29,11 @@ const addNewProblemStatement = async (req, res) => {
 
 const updateProblemStatement = async (req, res) => {
 	try {
-		const { id, statement, domain } = req.body;
+		const { id, statement, domain, title } = req.body;
 		const facultyId = req.user.id;
 		await ProblemStatement.findByIdAndUpdate(
 			id,
-			{ statement, domain },
+			{ statement, domain, title },
 			{
 				new: true,
 			}
@@ -97,6 +98,7 @@ const getProblemStatements = async (req, res) => {
 					faculty: { _id: '$faculty._id', name: '$faculty.name' },
 					statement: 1,
 					domain: 1,
+					title: 1,
 					selectedBy: {
 						_id: '$selectedBy._id',
 						groupNumber: '$selectedBy.groupNumber',
