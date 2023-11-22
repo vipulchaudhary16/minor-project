@@ -19,10 +19,11 @@ Rushi9jb580ic
 vipul@sot.pdpu.ac.in
 Vipulu7j4ehzt
 
+dev@sot.pdpu.ac.in
 Devo34h4yr8
 
+Admin:
 jonny@sot.pdpu.ac.in
-
 Jonnybim4o8re
 
 ### Test Notes
